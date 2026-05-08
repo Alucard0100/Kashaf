@@ -75,6 +75,7 @@ const GUIDELINES: Record<string, {
             "Start and end coordinates — end coordinates are critical, they drive crossing detection, progressive passing, and distribution stats",
             "Body part: foot or head",
             "Set piece: True for corners, free kicks, goal kicks, throw-ins, kick-offs",
+            "Outcome: Successful (reached teammate) or Failed (intercepted, out of bounds, blocked)",
         ],
         doNotTag: [
             "Goalkeeper distributions unless the goalkeeper is the profiled player",
@@ -84,7 +85,7 @@ const GUIDELINES: Record<string, {
     shot: {
         tagWhen: "Player makes a deliberate attempt at goal.",
         requiredFields: [
-            "Start coordinates only — end coordinates not needed",
+            "Start AND end coordinates — end coordinates must represent exactly where the ball crossed the goal line, hit the post, or was blocked/saved.",
             "Body part: foot or head",
             "Set piece: True for direct free kick shots and penalties",
             "Outcome: Goal, Saved, Blocked, Off Target, or Post — categorical, not binary",
@@ -92,7 +93,7 @@ const GUIDELINES: Record<string, {
         doNotTag: [
             "Blocked attempts that clearly weren't aimed at goal",
         ],
-        hint: "Start coords only · Body part needed · Use categorical outcome",
+        hint: "Start + End coords critical · Body part needed · Use categorical outcome",
     },
     cross: {
         tagWhen: "Player deliberately delivers the ball into the box from a wide position in the final third.",
@@ -103,7 +104,7 @@ const GUIDELINES: Record<string, {
         ],
         doNotTag: [
             "Crosses that don't start from a wide final third position — those are passes",
-            "Standard sideways passes along the ground — tag as pass instead",
+            "Sideways passes in the midfield. However, low driven cutbacks from the byline INTO the penalty box SHOULD be tagged as Crosses.",
         ],
         hint: "Start + End coords critical · Wide → box only · Low cutbacks from byline count",
     },
@@ -112,6 +113,7 @@ const GUIDELINES: Record<string, {
         requiredFields: [
             "Start coordinates only — end coordinates not needed",
             "No body part needed",
+            "Outcome: Successful (beat the defender and retained the ball) or Failed (dispossessed by the defender).",
         ],
         doNotTag: [
             "Running past a defender who isn't actively challenging — that's a carry",
@@ -177,6 +179,7 @@ const GUIDELINES: Record<string, {
         requiredFields: [
             "Start coordinates",
             "Set piece: True if the aerial comes from a corner, free kick delivery, or goal kick",
+            "Outcome: Successful (won the header) or Failed (lost the header to the opponent).",
         ],
         doNotTag: [
             "Ground challenges — use Tackle instead",
@@ -485,8 +488,11 @@ export default function MatchAnalysisPage() {
             const target = e.target as HTMLElement;
             if (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable) return;
 
-            const key = e.key.toLowerCase();
-            const eventType = shortcutKeyMap[key];
+            const keyStr = e.key.toLowerCase();
+            if (["control", "alt", "shift", "meta"].includes(keyStr)) return;
+            const combo = `${e.ctrlKey || e.metaKey ? 'ctrl+' : ''}${e.altKey ? 'alt+' : ''}${e.shiftKey ? 'shift+' : ''}${keyStr}`;
+            
+            const eventType = shortcutKeyMap[combo];
             if (eventType) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1557,25 +1563,28 @@ export default function MatchAnalysisPage() {
                                 onKeyDown={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
-                                    const key = e.key.toLowerCase();
+                                    const keyStr = e.key.toLowerCase();
+                                    if (["control", "alt", "shift", "meta"].includes(keyStr)) return;
+                                    
+                                    const combo = `${e.ctrlKey || e.metaKey ? 'ctrl+' : ''}${e.altKey ? 'alt+' : ''}${e.shiftKey ? 'shift+' : ''}${keyStr}`;
                                     
                                     // Check YouTube reserved keys
-                                    if (YOUTUBE_RESERVED_KEYS.has(key)) {
-                                        setShortcutError(`"${e.key}" is reserved by YouTube and cannot be used.`);
+                                    if (YOUTUBE_RESERVED_KEYS.has(combo)) {
+                                        setShortcutError(`"${combo}" is reserved by YouTube and cannot be used.`);
                                         return;
                                     }
 
                                     // Check if already assigned to another event type
                                     const existingEvent = Object.entries(customShortcuts).find(
-                                        ([evType, k]) => k.toLowerCase() === key && evType !== shortcutEditKey
+                                        ([evType, k]) => k.toLowerCase() === combo && evType !== shortcutEditKey
                                     );
                                     if (existingEvent) {
                                         const existingLabel = EVENT_TYPES.find((et) => et.value === existingEvent[0])?.label ?? existingEvent[0];
-                                        setShortcutError(`"${e.key}" is already assigned to ${existingLabel}.`);
+                                        setShortcutError(`"${combo}" is already assigned to ${existingLabel}.`);
                                         return;
                                     }
 
-                                    const updated = { ...customShortcuts, [shortcutEditKey!]: key };
+                                    const updated = { ...customShortcuts, [shortcutEditKey!]: combo };
                                     setCustomShortcuts(updated);
                                     setShortcutEditKey(null);
                                     setShortcutError(null);
