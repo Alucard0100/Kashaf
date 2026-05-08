@@ -37,6 +37,10 @@ BOX_X_MIN            = 83.0
 BOX_Y_MIN            = 20.0
 BOX_Y_MAX            = 80.0
 
+# FB centrality — penalty box width used for centrality_bias
+FB_CENTRAL_Y_MIN     = 18.0
+FB_CENTRAL_Y_MAX     = 62.0
+
 # PROGRESSIVE PASS / CARRY THRESHOLDS
 
 # Standard units: CB, FB, MF
@@ -60,7 +64,7 @@ FINAL_THIRD_UNITS = {"wg", "st"}
 #- Clustering -#
 
 K_VALUES = {
-    "cb": 4,
+    "cb": 3,
     "fb": 3,
     "mf": 4,
     "wg": 3,

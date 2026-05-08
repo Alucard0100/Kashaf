@@ -426,6 +426,152 @@ def headed_shots_pct(df: pd.DataFrame) -> float:
     return safe_ratio(headed, total)
 
 
+def pass_risk_profile(df: pd.DataFrame, unit: str) -> float:
+    """
+    Progressive Passes / Total Completed Passes (open play).
+    Separates safe passers (Wijnaldum) from ambitious playmakers (Bruno).
+    Returns 0.0 if no completed passes.
+    """
+    all_passes = open_play(action_filter(df, "pass"))
+    completed = successful(all_passes)
+    if completed.empty:
+        return 0.0
+
+    length_ok = is_valid_pass_length(
+        completed["start_x"], completed["start_y"],
+        completed["end_x"],   completed["end_y"],
+    )
+    progressive = is_progressive(
+        completed["start_x"], completed["start_y"],
+        completed["end_x"],   completed["end_y"],
+        unit=unit,
+    )
+    prog_count = (length_ok & progressive).sum()
+    return safe_ratio(prog_count, len(completed))
+
+
+def role_symmetry(df: pd.DataFrame, minutes: float, unit: str) -> float:
+    """
+    Defensive Actions / (Defensive Actions + Attacking Actions).
+    Attacking Actions = Shots + Progressive Passes + Dribble Attempts
+                        + Open Play Box Passes.
+    ~1.0 = pure DM, ~0.0 = pure AM, ~0.5 = Box-to-Box.
+    Returns 0.5 (neutral) if no actions at all.
+    """
+    # Defensive
+    def_events = open_play(
+        action_filter(df, "tackle", "interception", "aerial")
+    )
+    def_count = len(def_events)
+
+    # Attacking: shots
+    shots = len(open_play(action_filter(df, "shot")))
+
+    # Attacking: progressive passes (count, not p90)
+    passes = open_play(successful(action_filter(df, "pass")))
+    prog_passes = 0
+    if not passes.empty:
+        length_ok = is_valid_pass_length(
+            passes["start_x"], passes["start_y"],
+            passes["end_x"],   passes["end_y"],
+        )
+        progressive = is_progressive(
+            passes["start_x"], passes["start_y"],
+            passes["end_x"],   passes["end_y"],
+            unit=unit,
+        )
+        prog_passes = (length_ok & progressive).sum()
+
+    # Attacking: dribble attempts
+    dribbles = len(open_play(action_filter(df, "dribble")))
+
+    # Attacking: open play box passes (count)
+    box_passes = 0
+    op_passes = open_play(action_filter(df, "pass"))
+    if not op_passes.empty:
+        has_end = op_passes["end_x"].notna() & op_passes["end_y"].notna()
+        in_box = is_in_box(op_passes["end_x"], op_passes["end_y"])
+        box_passes = (has_end & in_box).sum()
+
+    atk_count = shots + prog_passes + dribbles + box_passes
+    total = def_count + atk_count
+    return safe_ratio(def_count, total, default=0.5)
+
+
+def open_play_box_passes_p90(df: pd.DataFrame, minutes: float) -> float:
+    """
+    Open play passes where the end location is inside the 18-yard box, per 90.
+    Set pieces (corners, free kicks, etc.) already excluded by open_play().
+    Measures true attacking penetration without corner-kick bias.
+    """
+    passes = open_play(action_filter(df, "pass"))
+    if passes.empty:
+        return 0.0
+
+    has_end = passes["end_x"].notna() & passes["end_y"].notna()
+    in_box = is_in_box(passes["end_x"], passes["end_y"])
+    return per90((has_end & in_box).sum(), minutes)
+
+
+def centrality_bias(df: pd.DataFrame) -> float:
+    """
+    Central Touches / Total Touches.
+    A "Touch" = starting location of Pass, Carry, Dribble, Shot, Clearance.
+    "Central" = Y between 18 and 62 (penalty box width).
+    Separates inverted/build-up fullbacks from touchline-huggers.
+    Returns 0.0 if no touches.
+    """
+    from config.settings import FB_CENTRAL_Y_MIN, FB_CENTRAL_Y_MAX
+
+    touch_types = ["pass", "carry", "dribble", "shot", "clearance"]
+    touches = action_filter(df, *touch_types)
+    if touches.empty:
+        return 0.0
+
+    central = (
+        (touches["start_y"] >= FB_CENTRAL_Y_MIN) &
+        (touches["start_y"] <= FB_CENTRAL_Y_MAX)
+    )
+    return safe_ratio(central.sum(), len(touches))
+
+
+def progression_preference(df: pd.DataFrame, minutes: float, unit: str) -> float:
+    """
+    Progressive Passes / (Progressive Passes + Progressive Carries).
+    Identifies *how* the fullback moves the ball up the pitch:
+    passing through lines vs. carrying up the wing.
+    Returns 0.5 (neutral) if no progressive actions.
+    """
+    # Progressive passes (raw count)
+    passes = open_play(successful(action_filter(df, "pass")))
+    prog_passes = 0
+    if not passes.empty:
+        length_ok = is_valid_pass_length(
+            passes["start_x"], passes["start_y"],
+            passes["end_x"],   passes["end_y"],
+        )
+        progressive_p = is_progressive(
+            passes["start_x"], passes["start_y"],
+            passes["end_x"],   passes["end_y"],
+            unit=unit,
+        )
+        prog_passes = (length_ok & progressive_p).sum()
+
+    # Progressive carries (raw count)
+    carries = open_play(action_filter(df, "carry"))
+    prog_carries = 0
+    if not carries.empty:
+        progressive_c = is_progressive(
+            carries["start_x"], carries["start_y"],
+            carries["end_x"],   carries["end_y"],
+            unit=unit,
+        )
+        prog_carries = progressive_c.sum()
+
+    total = prog_passes + prog_carries
+    return safe_ratio(prog_passes, total, default=0.5)
+
+
 # ---------------------------------------------------------------------------
 # Context-only derivations
 # ---------------------------------------------------------------------------

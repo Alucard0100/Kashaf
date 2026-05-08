@@ -7,11 +7,11 @@ import { Badge } from "@/components/ui/badge";
 
 // Archetypes per position unit — mirrors backend models/<unit>/cluster_names.json
 const ARCHETYPES_BY_POSITION: Record<string, string[]> = {
-  cb: ["Ball-Playing Defender", "Stopper", "Interceptor", "Sweeper"],
-  fb: ["Playmaking Fullback", "Wing-Back", "Defensive Fullback"],
-  mf: ["Advanced Playmaker", "Carrying Midfielder", "Deep Playmaker", "Anchor"],
-  wg: ["Inside Forward", "Wide Playmaker", "Wide Winger"],
-  st: ["Link-Up Striker", "Target Man", "Poacher"],
+  cb: ["Sweeper", "Stopper", "Ball-Playing Defender"],
+  fb: ["Defensive Fullback", "Inverted Fullback", "Overlapping Wingback"],
+  mf: ["Box-to-Box Midfielder", "Deep-Lying Playmaker", "Destroyer", "Advanced Playmaker"],
+  wg: ["Wide Playmaker", "Traditional Winger", "Inside Forward"],
+  st: ["Target Man", "Advanced Forward", "False 9"],
 };
 
 export interface FilterState {

@@ -52,14 +52,16 @@ SB_POSITION_NAME_MAP = {
     "Right Back":             "RB",
     "Left Wing Back":         "LB",
     "Right Wing Back":        "RB",
-    "Defensive Midfield":     "DM",
-    "Left Defensive Midfield":"DM",
+    "Defensive Midfield":      "DM",
+    "Center Defensive Midfield":"DM",
+    "Left Defensive Midfield": "DM",
     "Right Defensive Midfield":"DM",
-    "Center Midfield":        "CM",
-    "Left Center Midfield":   "CM",
-    "Right Center Midfield":  "CM",
-    "Attacking Midfield":     "AM",
-    "Left Attacking Midfield":"AM",
+    "Center Midfield":         "CM",
+    "Left Center Midfield":    "CM",
+    "Right Center Midfield":   "CM",
+    "Attacking Midfield":      "AM",
+    "Center Attacking Midfield":"AM",
+    "Left Attacking Midfield": "AM",
     "Right Attacking Midfield":"AM",
     "Left Wing":              "LW",
     "Right Wing":             "RW",
@@ -87,8 +89,16 @@ DEFINITE_MF_POSITIONS = {
     "Attacking Midfield", "Left Attacking Midfield", "Right Attacking Midfield",
 }
 
-# Ambiguous — could be either depending on system
+# Positions that are unambiguously fullback
+DEFINITE_FB_POSITIONS = {
+    "Left Back", "Right Back", "Left Wing Back", "Right Wing Back",
+}
+
+# Ambiguous wide — could be WG, FB, or MF depending on context
 AMBIGUOUS_WIDE_POSITIONS = {"Left Midfield", "Right Midfield"}
+
+# Ambiguous central — CAM could be ST, CDM could be CB; default to MF
+AMBIGUOUS_CENTRAL_POSITIONS = {"Center Attacking Midfield", "Center Defensive Midfield"}
 
 
 def _safe_console_text(text: str) -> str:
@@ -171,12 +181,15 @@ def build_player_unit_map(
 ) -> dict[str, str]:
     """
     Reads lineup files once and returns {versioned_player_season_key: unit}.
-    
+
     For ambiguous wide positions (Left Midfield, Right Midfield):
     - If the player also has definite winger appearances → WG
-    - If the player only has midfielder + ambiguous appearances → MF
-    - If the player only has ambiguous appearances with no context → MF
-      (safer default: better to miss a winger than add a CM to WG pool)
+    - If the player also has definite fullback appearances → FB
+    - Otherwise → MF (safe default)
+
+    For ambiguous central positions (Center Attacking/Defensive Midfield):
+    - Counted toward MF by default; if the player's primary role is
+      actually ST or CB, those definite appearances will dominate.
     """
     # {raw_name: {position_name: count}}
     position_counts: dict[str, dict[str, int]] = {}
@@ -200,40 +213,51 @@ def build_player_unit_map(
     print()
 
     raw_name_to_unit: dict[str, str] = {}
+    all_ambiguous = AMBIGUOUS_WIDE_POSITIONS | AMBIGUOUS_CENTRAL_POSITIONS
 
     for player_name, pos_counts in position_counts.items():
         # Separate appearances by category
-        winger_appearances  = sum(
+        winger_appearances = sum(
             count for pos, count in pos_counts.items()
             if pos in DEFINITE_WINGER_POSITIONS
         )
-        mf_appearances = sum(
+        fb_appearances = sum(
             count for pos, count in pos_counts.items()
-            if pos in DEFINITE_MF_POSITIONS
-        )
-        ambiguous_appearances = sum(
-            count for pos, count in pos_counts.items()
-            if pos in AMBIGUOUS_WIDE_POSITIONS
+            if pos in DEFINITE_FB_POSITIONS
         )
 
         # Build unit counts using SB_POSITION_NAME_MAP for non-ambiguous positions
         unit_counts: dict[str, int] = {}
         for pos, count in pos_counts.items():
-            if pos in AMBIGUOUS_WIDE_POSITIONS:
+            if pos in all_ambiguous:
                 continue  # handle separately below
             pos_abbr = SB_POSITION_NAME_MAP.get(pos)
             if pos_abbr and pos_abbr in POSITION_UNIT_MAP:
                 unit = POSITION_UNIT_MAP[pos_abbr]
                 unit_counts[unit] = unit_counts.get(unit, 0) + count
 
-        # Resolve ambiguous wide positions
-        if ambiguous_appearances > 0:
+        # Resolve ambiguous wide positions (LM/RM)
+        wide_ambiguous = sum(
+            count for pos, count in pos_counts.items()
+            if pos in AMBIGUOUS_WIDE_POSITIONS
+        )
+        if wide_ambiguous > 0:
             if winger_appearances > 0:
-                # Has genuine winger appearances — ambiguous ones are also winger
-                unit_counts["wg"] = unit_counts.get("wg", 0) + ambiguous_appearances
+                unit_counts["wg"] = unit_counts.get("wg", 0) + wide_ambiguous
+            elif fb_appearances > 0:
+                unit_counts["fb"] = unit_counts.get("fb", 0) + wide_ambiguous
             else:
-                # No genuine winger appearances — treat as midfielder
-                unit_counts["mf"] = unit_counts.get("mf", 0) + ambiguous_appearances
+                unit_counts["mf"] = unit_counts.get("mf", 0) + wide_ambiguous
+
+        # Resolve ambiguous central positions (CAM/CDM)
+        # Safe default: count toward MF. If the player's primary role
+        # is actually ST or CB, those definite appearances will dominate.
+        central_ambiguous = sum(
+            count for pos, count in pos_counts.items()
+            if pos in AMBIGUOUS_CENTRAL_POSITIONS
+        )
+        if central_ambiguous > 0:
+            unit_counts["mf"] = unit_counts.get("mf", 0) + central_ambiguous
 
         if not unit_counts:
             continue
@@ -312,7 +336,7 @@ def diagnose_unit_sample(
     print(f"  Running diagnostic for {unit.upper()}...")
 
     EXPECTED_CORE_COUNTS = {"cb": 6, "fb": 5, "mf": 6, "wg": 7, "st": 5}
-    EXPECTED_CTX_COUNTS = {"cb": 6, "fb": 6, "mf": 8, "wg": 5, "st": 6}
+    EXPECTED_CTX_COUNTS = {"cb": 6, "fb": 6, "mf": 6, "wg": 5, "st": 6}
     threshold = _events_threshold(unit)
 
 
@@ -322,6 +346,8 @@ def diagnose_unit_sample(
         "drop_deep_reception_pct", "pass_completion_pct",
         "dribble_success_pct", "tackle_win_pct", "cross_completion_pct",
         "progressive_pass_pct", "headed_shots_pct",
+        "pass_risk_profile", "role_symmetry", "centrality_bias",
+        "progression_preference", "aerial_win_pct",
     }
 
     for player_name, match_ids in player_registry.items():
