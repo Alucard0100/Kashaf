@@ -108,24 +108,6 @@ export default defineSchema({
     .index("by_matchId", ["matchId"])
     .index("by_playerId", ["playerId"]),
 
-  // ── Match Summaries ────────────────────────────────────────────────────
-  matchSummaries: defineTable({
-    matchId: v.id("matches"),
-    analystId: v.id("users"),
-    overallRating: v.number(),
-    strengths: v.array(v.string()),
-    weaknesses: v.array(v.string()),
-    positionProfile: v.array(
-      v.object({
-        position: v.string(),
-        percentage: v.number(),
-      })
-    ),
-    standoutMoments: v.optional(v.array(v.number())),
-    writtenSummary: v.string(),
-    createdAt: v.number(),
-  }).index("by_matchId", ["matchId"]),
-
   // ── Player Position Profiles (aggregated) ──────────────────────────────
   playerPositionProfiles: defineTable({
     playerId: v.id("users"),

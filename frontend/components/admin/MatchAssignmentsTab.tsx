@@ -1,5 +1,5 @@
 "use client";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useState } from "react";
 import type { Id } from "@/convex/_generated/dataModel";
@@ -22,9 +22,12 @@ export function MatchAssignmentsTab() {
     const matches = useQuery(api.matches.getAllMatchesWithDetails);
     const analysts = useQuery(api.users.listUsersByRole, { role: "analyst" });
     const reassignMatch = useMutation(api.matches.adminReassignMatch);
+    const deleteMatchCascading = useMutation(api.matches.deleteMatchCascading);
+    const getAndQueueEngineJob = useAction(api.engine.getAndQueueEngineJob);
 
     const [statusFilter, setStatusFilter] = useState<string | undefined>(undefined);
     const [reassigning, setReassigning] = useState<string | null>(null);
+    const [deleting, setDeleting] = useState<string | null>(null);
     const [selectedAnalyst, setSelectedAnalyst] = useState<Record<string, string>>({});
     const [msg, setMsg] = useState("");
 
@@ -51,6 +54,51 @@ export function MatchAssignmentsTab() {
             setMsg("❌ " + (err?.message || "Failed to reassign"));
         }
         setReassigning(null);
+    };
+
+    const handleDelete = async (matchId: Id<"matches">) => {
+        const confirmed = window.confirm(
+            "Are you sure? This will delete all tagging data and trigger an engine recalculation for this player."
+        );
+        if (!confirmed) return;
+
+        setDeleting(matchId);
+        setMsg("");
+
+        try {
+            const result: any = await deleteMatchCascading({ matchId });
+
+            if (result?.recalcMatchId && result?.recalcPlayerId && result?.recalcAnalystId) {
+                const payload = await getAndQueueEngineJob({
+                    matchId: result.recalcMatchId,
+                    playerId: result.recalcPlayerId,
+                    analystId: result.recalcAnalystId,
+                });
+
+                const res = await fetch("/api/engine/proxy", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!res.ok) {
+                    const errText = await res.text();
+                    setMsg("⚠ Match deleted but engine rejected recalculation: " + errText);
+                } else {
+                    setMsg("✅ Match deleted and engine recalculation queued");
+                }
+            } else if (result?.profileCleared) {
+                setMsg("✅ Match deleted and player profiles cleared");
+            } else if ((result?.remainingCompleted ?? 0) > 0) {
+                setMsg("⚠ Match deleted but engine recalculation was skipped (missing analyst).");
+            } else {
+                setMsg("✅ Match deleted");
+            }
+        } catch (err: any) {
+            setMsg("❌ " + (err?.message || "Failed to delete match"));
+        }
+
+        setDeleting(null);
     };
 
     if (!matches || !analysts) {
@@ -137,6 +185,7 @@ export function MatchAssignmentsTab() {
                             <th className="text-left px-4 py-3">Status</th>
                             <th className="text-left px-4 py-3">Assigned Analyst</th>
                             <th className="text-left px-4 py-3">Reassign</th>
+                            <th className="text-left px-4 py-3">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -169,13 +218,13 @@ export function MatchAssignmentsTab() {
                                     </span>
                                 </td>
                                 <td className="px-4 py-3">
-                                    {match.analystName ? (
+                                    {match.analystId ? (
                                         <div>
                                             <p className="text-white/70 text-sm font-medium">
-                                                {match.analystName}
+                                                {match.analystName ?? "Deleted Analyst"}
                                             </p>
                                             <p className="text-white/25 text-[10px]">
-                                                {match.analystEmail}
+                                                {match.analystEmail ?? ""}
                                             </p>
                                         </div>
                                     ) : (
@@ -230,6 +279,15 @@ export function MatchAssignmentsTab() {
                                                 : "Reassign"}
                                         </button>
                                     </div>
+                                </td>
+                                <td className="px-4 py-3">
+                                    <button
+                                        onClick={() => handleDelete(match._id as Id<"matches">)}
+                                        disabled={deleting === match._id}
+                                        className="px-3 py-1.5 rounded-lg text-[11px] font-semibold text-red-200 bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                                    >
+                                        {deleting === match._id ? "Deleting..." : "Delete"}
+                                    </button>
                                 </td>
                             </tr>
                         ))}

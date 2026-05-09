@@ -29,15 +29,19 @@ interface PlayerCardProps {
   profile: EngineProfile;
 }
 
-// Utility to format "Player Name [2019/2020]" -> "Player Name (2019/20)"
-const formatTwinName = (name: string) => {
-  const match = name.match(/(.+) \[(\d{4})\/(\d{4})\]/);
-  if (match) {
-    const [, baseName, startYear, endYear] = match;
-    const shortEndYear = endYear.slice(2);
-    return `${baseName} (${startYear}/${shortEndYear})`;
+const formatTwinName = (value: string): { name: string; season: string } => {
+  if (!value) {
+    return { name: "Unknown Player", season: "Career" };
   }
-  return name;
+
+  const match = value.match(/^(.*?)\s*\[(.+)\]\s*$/);
+  if (!match) {
+    return { name: value, season: "Career" };
+  }
+
+  const name = match[1].trim() || value;
+  const season = match[2].trim() || "Career";
+  return { name, season };
 };
 
 export function PlayerCard({ profile }: PlayerCardProps) {
@@ -119,18 +123,18 @@ export function PlayerCard({ profile }: PlayerCardProps) {
         {/* Twins Comparison */}
         <div>
           <h4 className="text-[11px] font-bold text-white/50 uppercase tracking-widest mb-3">Statistical Twins</h4>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {profile.twins.slice(0, 3).map((twin, idx) => (
-              <div key={idx} className="bg-white/2 border border-white/4 rounded-xl p-3 flex flex-col justify-between hover:bg-white/5 hover:border-white/10 transition-colors">
-                <p className="text-[11px] font-bold text-white/90 truncate mb-3" title={twin.player_name}>
-                  {formatTwinName(twin.player_name)}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-[9px] uppercase tracking-widest text-white/40 font-semibold">Similarity</span>
-                  <span className="text-sm font-black text-dns-green">{twin.similarity}%</span>
+          <div className="flex flex-col gap-1">
+            {profile.twins.slice(0, 3).map((twin, idx) => {
+              const { name, season } = formatTwinName(twin.player_name);
+              return (
+                <div key={idx} className="flex flex-col py-2 border-b border-white/5 last:border-0">
+                  <span className="font-medium text-sm text-white">{name}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {season} • {twin.similarity.toFixed(2)}% match
+                  </span>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </CardContent>

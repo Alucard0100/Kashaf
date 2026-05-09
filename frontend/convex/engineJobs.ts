@@ -134,7 +134,7 @@ export const getLatestCompletedJobByPlayerId = query({
       contextFeatures: report.context_features ?? {},
       twins: (report.twins ?? []).map((t: any) => ({
         player_name: t.player_name ?? "",
-        similarity: t.similarity ?? 0,
+        similarity: t.similarity ?? t.similarity_score ?? 0,
         context: t.context ?? {},
       })),
       dataWarning: report.data_warning ?? null,

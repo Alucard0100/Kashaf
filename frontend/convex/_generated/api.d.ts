@@ -18,7 +18,6 @@ import type * as engineLogs from "../engineLogs.js";
 import type * as engineProfiles from "../engineProfiles.js";
 import type * as http from "../http.js";
 import type * as keyboardShortcuts from "../keyboardShortcuts.js";
-import type * as matchSummaries from "../matchSummaries.js";
 import type * as matches from "../matches.js";
 import type * as migrations from "../migrations.js";
 import type * as notifications from "../notifications.js";
@@ -44,7 +43,6 @@ declare const fullApi: ApiFromModules<{
   engineProfiles: typeof engineProfiles;
   http: typeof http;
   keyboardShortcuts: typeof keyboardShortcuts;
-  matchSummaries: typeof matchSummaries;
   matches: typeof matches;
   migrations: typeof migrations;
   notifications: typeof notifications;

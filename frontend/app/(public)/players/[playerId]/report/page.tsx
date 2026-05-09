@@ -45,6 +45,21 @@ function archetypeColor(name: string): string {
     return ARCHETYPE_COLORS[name] ?? "#00FF87";
 }
 
+function formatTwinName(value: string): { name: string; season: string } {
+    if (!value) {
+        return { name: "Unknown Player", season: "Career" };
+    }
+
+    const match = value.match(/^(.*?)\s*\[(.+)\]\s*$/);
+    if (!match) {
+        return { name: value, season: "Career" };
+    }
+
+    const name = match[1].trim() || value;
+    const season = match[2].trim() || "Career";
+    return { name, season };
+}
+
 /* ── Sub-components ───────────────────────────────────────────────────── */
 function ArchetypeBar({ name, pct: value, max }: { name: string; pct: number; max: number }) {
     const color = archetypeColor(name);
@@ -74,20 +89,20 @@ function StatRow({ label, value }: { label: string; value: string }) {
     );
 }
 
-function TwinCard({ twin }: { twin: { player_name: string; similarity: number; context?: Record<string, number> } }) {
-    const simPct = twin.similarity.toFixed(2);
+function TwinCard({ twin }: { twin: { player_name: string; similarity?: number; similarity_score?: number; context?: Record<string, number> } }) {
+    const { name, season } = formatTwinName(twin.player_name);
+    const similarity = twin.similarity ?? twin.similarity_score ?? 0;
+    const simPct = similarity.toFixed(2);
     return (
         <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-[#00FF87]/20 transition-all">
-            <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-full bg-[#00FF87]/15 flex items-center justify-center text-[#00FF87] text-sm font-bold">
-                        {twin.player_name.charAt(0)}
-                    </div>
-                    <span className="text-sm font-semibold text-white">{twin.player_name}</span>
+            <div className="flex items-start gap-2.5 mb-3">
+                <div className="w-8 h-8 rounded-full bg-[#00FF87]/15 flex items-center justify-center text-[#00FF87] text-sm font-bold">
+                    {name.charAt(0)}
                 </div>
-                <span className="text-xs font-bold text-[#00FF87] bg-[#00FF87]/10 px-2 py-0.5 rounded-full">
-                    {simPct}% match
-                </span>
+                <div>
+                    <p className="text-sm font-semibold text-white">{name}</p>
+                    <p className="text-xs text-gray-400">{season} · {simPct}% match</p>
+                </div>
             </div>
             {twin.context && Object.keys(twin.context).length > 0 && (
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 mt-2 pt-2 border-t border-white/[0.04]">

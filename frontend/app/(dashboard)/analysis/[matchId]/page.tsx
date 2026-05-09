@@ -412,7 +412,6 @@ export default function MatchAnalysisPage() {
     /* ── Queries ──────────────────────────────────────────────────────── */
     const match = useQuery(api.matches.getMatchById, { matchId });
     const events = useQuery(api.analysisEvents.getEventsByMatch, { matchId });
-    const existingSummary = useQuery(api.matchSummaries.getSummaryByMatch, { matchId });
     const user = useQuery(api.users.getCurrentUser);
     const engineJob = useQuery(api.engineJobs.getJobByMatchId, { matchId });
     const engineLogs = useQuery(api.engineLogs.getLogsByMatch, { matchId });
@@ -423,7 +422,7 @@ export default function MatchAnalysisPage() {
     const deleteEvent = useMutation(api.analysisEvents.deleteEvent);
     const updateEvent = useMutation(api.analysisEvents.updateEvent);
     const updateMatchStatus = useMutation(api.matches.updateMatchStatus);
-    const createSummary = useMutation(api.matchSummaries.createSummary);
+    const completeMatch = useMutation(api.matches.completeMatch);
     const getAndQueueEngineJob = useAction(api.engine.getAndQueueEngineJob);
     const saveShortcutsMutation = useMutation(api.keyboardShortcuts.saveShortcuts);
 
@@ -444,13 +443,7 @@ export default function MatchAnalysisPage() {
 
     const needsDestination = HAS_DESTINATION.has(selectedEventType);
 
-    /* ── Summary State ────────────────────────────────────────────────── */
-    const [showSummary, setShowSummary] = useState(false);
-    const [overallRating, setOverallRating] = useState(7);
-    const [strengths, setStrengths] = useState("");
-    const [weaknesses, setWeaknesses] = useState("");
-    const [writtenSummary, setWrittenSummary] = useState("");
-    const [summaryLoading, setSummaryLoading] = useState(false);
+    const [completeLoading, setCompleteLoading] = useState(false);
     const [engineError, setEngineError] = useState<string | null>(null);
     const [isEditingTags, setIsEditingTags] = useState(false);
     const [resubmitLoading, setResubmitLoading] = useState(false);
@@ -699,16 +692,15 @@ export default function MatchAnalysisPage() {
         }
     };
 
-    const handleSubmitSummary = async () => {
-        if (!strengths || !weaknesses || !writtenSummary) return;
-        setSummaryLoading(true);
+    const handleCompleteMatch = async () => {
+        if ((events?.length ?? 0) === 0) return;
+        setCompleteLoading(true);
         setEngineError(null);
 
         try {
-            // Step 1: Prepare job payload via Convex (doesn't finalize anything yet)
             if (!match.playerId || !match.analystId) {
                 setEngineError("Match is missing player or analyst data. Cannot submit.");
-                setSummaryLoading(false);
+                setCompleteLoading(false);
                 return;
             }
 
@@ -721,11 +713,10 @@ export default function MatchAnalysisPage() {
                 });
             } catch (err: any) {
                 setEngineError("Failed to prepare engine job: " + (err?.message || "Unknown error"));
-                setSummaryLoading(false);
+                setCompleteLoading(false);
                 return;
             }
 
-            // Step 2: Send to local Python Engine via proxy
             try {
                 const res = await fetch("/api/engine/proxy", {
                     method: "POST",
@@ -735,30 +726,20 @@ export default function MatchAnalysisPage() {
                 if (!res.ok) {
                     const errText = await res.text();
                     setEngineError(`Engine rejected the job (${res.status}): ${errText}`);
-                    setSummaryLoading(false);
+                    setCompleteLoading(false);
                     return;
                 }
             } catch (err: any) {
                 setEngineError("Could not reach the local engine. Is it running on port 8080? Error: " + (err?.message || "Network error"));
-                setSummaryLoading(false);
+                setCompleteLoading(false);
                 return;
             }
 
-            // Step 3: Engine accepted — now safe to finalize the analysis
-            await createSummary({
-                matchId,
-                overallRating,
-                strengths: strengths.split(",").map((s) => s.trim()).filter(Boolean),
-                weaknesses: weaknesses.split(",").map((s) => s.trim()).filter(Boolean),
-                positionProfile: [],
-                writtenSummary,
-            });
-
-            setShowSummary(false);
+            await completeMatch({ matchId });
         } catch (err: any) {
             setEngineError("Unexpected error: " + (err?.message || "Please try again."));
         }
-        setSummaryLoading(false);
+        setCompleteLoading(false);
     };
 
     const handleResubmitEngine = async () => {
@@ -813,12 +794,13 @@ export default function MatchAnalysisPage() {
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    {!isCompleted && !existingSummary && (events?.length ?? 0) > 0 && (
+                    {!isCompleted && (events?.length ?? 0) > 0 && (
                         <button
-                            onClick={() => setShowSummary(true)}
-                            className="px-4 py-2 rounded-xl text-xs font-semibold text-[#0A0A0F] bg-[#00FF87] hover:bg-[#00FF87]/90 transition-all cursor-pointer"
+                            onClick={handleCompleteMatch}
+                            disabled={completeLoading}
+                            className="px-4 py-2 rounded-xl text-xs font-semibold text-[#0A0A0F] bg-[#00FF87] hover:bg-[#00FF87]/90 transition-all cursor-pointer disabled:opacity-60"
                         >
-                            Complete Analysis
+                            {completeLoading ? "Completing..." : "Complete Analysis"}
                         </button>
                     )}
                     {isCompleted && engineFailed && (
@@ -1397,97 +1379,6 @@ export default function MatchAnalysisPage() {
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* ── Summary Modal ────────────────────────────────────────── */}
-            {showSummary && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-                    <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setShowSummary(false)} />
-                    <div className="relative w-full max-w-lg bg-[#12121a] border border-white/10 rounded-2xl p-6 shadow-2xl max-h-[85vh] overflow-y-auto">
-                        <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-lg font-bold text-white">Complete Analysis</h2>
-                            <button onClick={() => setShowSummary(false)} className="text-white/40 hover:text-white transition-colors cursor-pointer">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-                            </button>
-                        </div>
-
-                        <div className="space-y-4">
-                            {/* Overall Rating */}
-                            <div>
-                                <label className="block text-sm font-medium text-white/60 mb-2">Overall Rating: <span className="text-[#00FF87] font-bold">{overallRating}/10</span></label>
-                                <input
-                                    type="range"
-                                    min="1"
-                                    max="10"
-                                    value={overallRating}
-                                    onChange={(e) => setOverallRating(Number(e.target.value))}
-                                    className="w-full accent-[#00FF87]"
-                                />
-                                <div className="flex justify-between text-[10px] text-white/20 mt-1">
-                                    <span>Poor</span><span>Average</span><span>Excellent</span>
-                                </div>
-                            </div>
-
-                            {/* Strengths */}
-                            <div>
-                                <label className="block text-sm font-medium text-white/60 mb-1.5">Strengths</label>
-                                <input
-                                    type="text"
-                                    value={strengths}
-                                    onChange={(e) => setStrengths(e.target.value)}
-                                    placeholder="Passing accuracy, Vision, Work rate"
-                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#00FF87]/50 transition-all"
-                                />
-                                <p className="text-[10px] text-white/20 mt-1">Comma-separated</p>
-                            </div>
-
-                            {/* Weaknesses */}
-                            <div>
-                                <label className="block text-sm font-medium text-white/60 mb-1.5">Weaknesses</label>
-                                <input
-                                    type="text"
-                                    value={weaknesses}
-                                    onChange={(e) => setWeaknesses(e.target.value)}
-                                    placeholder="Aerial duels, Defensive positioning"
-                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#00FF87]/50 transition-all"
-                                />
-                                <p className="text-[10px] text-white/20 mt-1">Comma-separated</p>
-                            </div>
-
-                            {/* Written Summary */}
-                            <div>
-                                <label className="block text-sm font-medium text-white/60 mb-1.5">Written Summary</label>
-                                <textarea
-                                    value={writtenSummary}
-                                    onChange={(e) => setWrittenSummary(e.target.value)}
-                                    rows={5}
-                                    placeholder="Detailed analysis of the player's performance..."
-                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#00FF87]/50 transition-all resize-none"
-                                />
-                            </div>
-
-                            {/* Engine Error */}
-                            {engineError && (
-                                <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs">
-                                    <p className="font-semibold mb-1">⚠ Could not submit — your work is safe</p>
-                                    <p className="text-red-400/80">{engineError}</p>
-                                </div>
-                            )}
-
-                            {/* Submit */}
-                            <div className="flex gap-3 pt-2">
-                                <button onClick={() => setShowSummary(false)} className="flex-1 py-3 rounded-xl font-medium text-white/70 bg-white/5 border border-white/10 hover:bg-white/10 transition-all cursor-pointer">Cancel</button>
-                                <button
-                                    onClick={handleSubmitSummary}
-                                    disabled={summaryLoading || !strengths || !weaknesses || !writtenSummary}
-                                    className="flex-1 py-3 rounded-xl font-semibold text-[#0A0A0F] bg-[#00FF87] hover:bg-[#00FF87]/90 transition-all hover:shadow-lg hover:shadow-[#00FF87]/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                                >
-                                    {summaryLoading ? "Submitting..." : "Submit & Complete"}
-                                </button>
                             </div>
                         </div>
                     </div>

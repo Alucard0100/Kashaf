@@ -40,6 +40,7 @@ export default function PlayerPublicProfile() {
     const weight     = user.playerProfile?.weight;
     const foot       = user.playerProfile?.foot;
     const position   = profile?.unit || user.playerProfile?.position;
+    const twinCount  = profile?.twins?.length ?? 0;
     const nationality = user.playerProfile?.nationality;
     const club       = user.playerProfile?.currentClub;
     const photoUrl   = user.profilePhoto;
@@ -132,7 +133,7 @@ export default function PlayerPublicProfile() {
                                                 View Full Report
                                             </p>
                                             <p className="text-xs text-white/35 mt-0.5">
-                                                Engine analysis across {profile.matchCount} {profile.matchCount === 1 ? "match" : "matches"} · {profile.topArchetype} profile
+                                                Engine analysis across {profile.matchCount} {profile.matchCount === 1 ? "match" : "matches"} · {profile.topArchetype} profile · {twinCount} twin{twinCount === 1 ? "" : "s"}
                                             </p>
                                         </div>
                                     </div>

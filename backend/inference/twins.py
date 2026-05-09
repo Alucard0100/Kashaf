@@ -1,6 +1,7 @@
 """
 Twin matching: find the 3 most similar reference pool players
 and return their context features for side-by-side comparison.
+Cosine similarity is used for player comparisons.
 """
 
 import json
@@ -63,27 +64,24 @@ def _twin_similarity_score(
     ref_vectors: np.ndarray,
 ) -> np.ndarray:
     """
-    Computes similarity scores between a query vector and all reference vectors.
-    Uses 1 / (1 + distance / median_pairwise_distance) so the denominator is
-    derived from the data, not a magic number.
+    Computes cosine similarity scores between a query vector and all reference vectors.
+    Similarity is returned as a percentage using: (1 - cosine_distance) * 100.
 
     Args:
         query_vec: 1D array of the query player's scaled features.
         ref_vectors: 2D array of reference pool scaled features.
 
     Returns:
-        1D array of similarity scores in [0, 1] for each reference player.
+        1D array of similarity scores in percent for each reference player.
     """
-    distances = np.linalg.norm(ref_vectors - query_vec, axis=1)
+    query_norm = np.linalg.norm(query_vec)
+    ref_norms = np.linalg.norm(ref_vectors, axis=1)
+    denom = ref_norms * query_norm
+    denom = np.where(denom == 0, 1e-12, denom)
 
-    pairwise = np.linalg.norm(
-        ref_vectors[:, np.newaxis] - ref_vectors[np.newaxis, :],
-        axis=2,
-    )
-    upper = pairwise[np.triu_indices(len(ref_vectors), k=1)]
-    median_dist = np.median(upper) if len(upper) > 0 else 1.0
-
-    return 1.0 / (1.0 + distances / median_dist)
+    cosine_sim = (ref_vectors @ query_vec) / denom
+    cosine_distance = 1.0 - cosine_sim
+    return (1.0 - cosine_distance) * 100.0
 
 
 def _strip_season(versioned_name: str) -> str:
@@ -123,7 +121,7 @@ def find_twins(
     Returns:
         List of up to N_TWINS dicts, each containing:
           - player_name: versioned player-season key
-          - similarity: float in [0, 100]
+            - similarity: float in percent
           - context: dict of context feature name -> value
     """
     names, vectors = _load_reference_pool(unit)
@@ -150,7 +148,7 @@ def find_twins(
         twins.append(
             {
                 "player_name": versioned_name,
-                "similarity": round(float(score) * 100, 1),
+                "similarity": round(float(score), 2),
                 "context": display_context,
             }
         )

@@ -405,7 +405,10 @@ export const isAdmin = query({
         if (!userId) return false;
         const user = await ctx.db.get(userId);
         if (!user) return false;
-        const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map(e => e.trim().toLowerCase()).filter(Boolean);
+        const adminEmails = (process.env.ADMIN_EMAILS || "")
+            .split(",")
+            .map((e: string) => e.trim().toLowerCase())
+            .filter(Boolean);
         return adminEmails.includes(user.email.toLowerCase());
     },
 });
@@ -468,6 +471,25 @@ export const deleteUser = mutation({
     handler: async (ctx, args) => {
         const user = await ctx.db.get(args.userId);
         if (!user) throw new Error("User not found");
+        if (user.role === "analyst") {
+            const assignedMatches = await ctx.db
+                .query("matches")
+                .withIndex("by_analystId", (q) => q.eq("analystId", args.userId))
+                .collect();
+
+            const pendingUnlock = assignedMatches.filter(
+                (m) => m.status === "analyst_assigned" || m.status === "analysis_in_progress"
+            );
+
+            await Promise.all(
+                pendingUnlock.map((m) =>
+                    ctx.db.patch(m._id, {
+                        analystId: undefined,
+                        status: "pending_analyst",
+                    })
+                )
+            );
+        }
         await ctx.db.delete(args.userId);
     },
 });

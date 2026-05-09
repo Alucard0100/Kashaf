@@ -40,6 +40,21 @@ function archetypeColor(name: string): string {
     return ARCHETYPE_COLORS[name] ?? "#00FF87";
 }
 
+function formatTwinName(value: string): { name: string; season: string } {
+    if (!value) {
+        return { name: "Unknown Player", season: "Career" };
+    }
+
+    const match = value.match(/^(.*?)\s*\[(.+)\]\s*$/);
+    if (!match) {
+        return { name: value, season: "Career" };
+    }
+
+    const name = match[1].trim() || value;
+    const season = match[2].trim() || "Career";
+    return { name, season };
+}
+
 /* ── Sub-components ───────────────────────────────────────────────────── */
 function ArchetypeBar({ name, pct: value, max }: { name: string; pct: number; max: number }) {
     const color = archetypeColor(name);
@@ -69,21 +84,20 @@ function StatRow({ label, value }: { label: string; value: string }) {
     );
 }
 
-function TwinCard({ twin }: { twin: { player_name: string; similarity: number; context?: Record<string, number> } }) {
-    // Engine already returns similarity in 0-100 range
-    const simPct = twin.similarity.toFixed(2);
+function TwinCard({ twin }: { twin: { player_name: string; similarity?: number; similarity_score?: number; context?: Record<string, number> } }) {
+    const { name, season } = formatTwinName(twin.player_name);
+    const similarity = twin.similarity ?? twin.similarity_score ?? 0;
+    const simPct = similarity.toFixed(2);
     return (
         <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-[#00FF87]/20 transition-all">
-            <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-full bg-[#00FF87]/15 flex items-center justify-center text-[#00FF87] text-sm font-bold">
-                        {twin.player_name.charAt(0)}
-                    </div>
-                    <span className="text-sm font-semibold text-white">{twin.player_name}</span>
+            <div className="flex items-start gap-2.5 mb-3">
+                <div className="w-8 h-8 rounded-full bg-[#00FF87]/15 flex items-center justify-center text-[#00FF87] text-sm font-bold">
+                    {name.charAt(0)}
                 </div>
-                <span className="text-xs font-bold text-[#00FF87] bg-[#00FF87]/10 px-2 py-0.5 rounded-full">
-                    {simPct}% match
-                </span>
+                <div>
+                    <p className="text-sm font-semibold text-white">{name}</p>
+                    <p className="text-xs text-gray-400">{season} · {simPct}% match</p>
+                </div>
             </div>
             {twin.context && Object.keys(twin.context).length > 0 && (
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 mt-2 pt-2 border-t border-white/[0.04]">
@@ -111,7 +125,6 @@ export default function MatchReportPage() {
 
     const match = useQuery(api.matches.getMatchById, { matchId });
     const player = useQuery(api.users.getUserById, { userId: playerId });
-    const summary = useQuery(api.matchSummaries.getSummaryByMatch, { matchId });
     const engineJob = useQuery(api.engineJobs.getJobByMatchId, { matchId });
 
     /* Loading */
@@ -225,12 +238,6 @@ export default function MatchReportPage() {
                     </div>
                 )}
 
-                {!engineReport && !jobStatus && summary && (
-                    <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
-                        <p className="text-sm text-white/40">The AI engine report is not yet available for this match.</p>
-                    </div>
-                )}
-
                 {/* ── ENGINE REPORT ─────────────────────────────────────────── */}
                 {engineReport && (
                     <>
@@ -325,57 +332,8 @@ export default function MatchReportPage() {
                     </>
                 )}
 
-                {/* ── ANALYST SUMMARY ───────────────────────────────────────── */}
-                {summary && (
-                    <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] space-y-5">
-                        <div className="flex items-center justify-between">
-                            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/50">Analyst Assessment</h3>
-                            <div className="flex items-center gap-2">
-                                <span className="text-3xl font-black text-[#00FF87]">{summary.overallRating}</span>
-                                <span className="text-white/30 text-sm">/10</span>
-                            </div>
-                        </div>
-
-                        {/* Rating bar */}
-                        <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                            <div
-                                className="h-full rounded-full bg-gradient-to-r from-[#00FF87] to-[#3B82F6]"
-                                style={{ width: `${(summary.overallRating / 10) * 100}%` }}
-                            />
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="p-4 rounded-xl bg-[#00FF87]/5 border border-[#00FF87]/10">
-                                <p className="text-xs font-semibold text-[#00FF87]/70 uppercase tracking-wider mb-2">Strengths</p>
-                                <div className="flex flex-wrap gap-1.5">
-                                    {summary.strengths.map((s) => (
-                                        <span key={s} className="text-xs px-2.5 py-1 rounded-lg bg-[#00FF87]/10 text-[#00FF87] border border-[#00FF87]/15">
-                                            {s}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="p-4 rounded-xl bg-red-500/5 border border-red-500/10">
-                                <p className="text-xs font-semibold text-red-400/70 uppercase tracking-wider mb-2">Areas to Improve</p>
-                                <div className="flex flex-wrap gap-1.5">
-                                    {summary.weaknesses.map((w) => (
-                                        <span key={w} className="text-xs px-2.5 py-1 rounded-lg bg-red-500/10 text-red-400 border border-red-500/15">
-                                            {w}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
-                            <p className="text-xs text-white/30 uppercase tracking-wider mb-2">Written Analysis</p>
-                            <p className="text-sm text-white/70 leading-relaxed">{summary.writtenSummary}</p>
-                        </div>
-                    </div>
-                )}
-
                 {/* ── No data fallback ───────────────────────────────────────── */}
-                {!summary && !engineReport && !jobStatus && (
+                {!engineReport && !jobStatus && (
                     <div className="text-center py-20">
                         <div className="text-5xl mb-4 opacity-30">📋</div>
                         <p className="text-white/30 text-sm">No report available yet for this match.</p>

@@ -61,7 +61,7 @@ def apply_domain_adaptation(x_scaled: np.ndarray, unit: str, feature_cols: list[
     """
     Applies Z-Score clipping (-3.0 to 3.0) and position-specific feature weighting
     to prevent extreme outliers (especially from youth data) from distorting
-    K-Means clustering and Euclidean distance similarity matching.
+    K-Means clustering and cosine similarity matching.
     
     Can handle both 1D vectors (inference) and 2D matrices (training).
     """
