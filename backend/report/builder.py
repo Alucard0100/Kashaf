@@ -49,7 +49,10 @@ def _get_scaled_vector(core_features: dict, unit: str) -> np.ndarray:
     with open(MODELS_DIR / unit / "feature_cols.json", encoding="utf-8") as f:
         feature_cols = json.load(f)
     x = np.array([core_features[col] for col in feature_cols], dtype=float).reshape(1, -1)
-    return scaler.transform(x)[0]
+    x_scaled = scaler.transform(x)[0]
+
+    from inference.adaptation import apply_domain_adaptation
+    return apply_domain_adaptation(x_scaled, unit, feature_cols)
 
 
 def _filter_and_renormalize(

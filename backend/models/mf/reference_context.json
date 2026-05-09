@@ -231,14 +231,6 @@
     "interceptions_p90": 1.3107,
     "dribble_success_pct": 0.8378
   },
-  "Franco Damián Vázquez": {
-    "progressive_passes_p90": 3.6544,
-    "progressive_carries_p90": 5.0154,
-    "pass_completion_pct": 0.7775,
-    "tackle_win_pct": 0.64,
-    "interceptions_p90": 0.3276,
-    "dribble_success_pct": 0.5076
-  },
   "Éver Maximiliano David Banega": {
     "progressive_passes_p90": 5.7325,
     "progressive_carries_p90": 2.508,
@@ -479,6 +471,14 @@
     "interceptions_p90": 0.783,
     "dribble_success_pct": 0.5873
   },
+  "Javier Eraso Goñi": {
+    "progressive_passes_p90": 1.0703,
+    "progressive_carries_p90": 0.5351,
+    "pass_completion_pct": 0.814,
+    "tackle_win_pct": 0.5,
+    "interceptions_p90": 0.3405,
+    "dribble_success_pct": 0.3
+  },
   "Daniel Wass": {
     "progressive_passes_p90": 4.3985,
     "progressive_carries_p90": 1.5338,
@@ -534,14 +534,6 @@
     "tackle_win_pct": 0.8095,
     "interceptions_p90": 0.7081,
     "dribble_success_pct": 0.5455
-  },
-  "Francisco Román Alarcón Suárez": {
-    "progressive_passes_p90": 3.4548,
-    "progressive_carries_p90": 2.9267,
-    "pass_completion_pct": 0.876,
-    "tackle_win_pct": 0.6122,
-    "interceptions_p90": 0.3521,
-    "dribble_success_pct": 0.6355
   },
   "Gilbert Gianelli Imbula Wanga": {
     "progressive_passes_p90": 3.8,
@@ -1647,14 +1639,6 @@
     "interceptions_p90": 1.0072,
     "dribble_success_pct": 0.6667
   },
-  "Emre Çolak": {
-    "progressive_passes_p90": 3.9527,
-    "progressive_carries_p90": 0.9122,
-    "pass_completion_pct": 0.8235,
-    "tackle_win_pct": 0.0,
-    "interceptions_p90": 0.0,
-    "dribble_success_pct": 0.625
-  },
   "Guilherme dos Santos Torres": {
     "progressive_passes_p90": 5.2524,
     "progressive_carries_p90": 0.9937,
@@ -1750,6 +1734,14 @@
     "tackle_win_pct": 0.5517,
     "interceptions_p90": 0.6662,
     "dribble_success_pct": 0.8824
+  },
+  "Daniel José Rodríguez Vázquez": {
+    "progressive_passes_p90": 2.5,
+    "progressive_carries_p90": 3.0,
+    "pass_completion_pct": 0.8444,
+    "tackle_win_pct": 0.6,
+    "interceptions_p90": 1.0,
+    "dribble_success_pct": 0.8333
   },
   "Iddrisu Baba Mohammed": {
     "progressive_passes_p90": 2.9302,
@@ -1967,6 +1959,14 @@
     "interceptions_p90": 0.5,
     "dribble_success_pct": 1.0
   },
+  "David Dunn": {
+    "progressive_passes_p90": 2.7273,
+    "progressive_carries_p90": 3.8182,
+    "pass_completion_pct": 0.6939,
+    "tackle_win_pct": 0.6667,
+    "interceptions_p90": 0.5455,
+    "dribble_success_pct": 0.7143
+  },
   "Robbie Savage": {
     "progressive_passes_p90": 2.0,
     "progressive_carries_p90": 0.0,
@@ -1997,14 +1997,6 @@
     "pass_completion_pct": 0.7976,
     "tackle_win_pct": 0.0,
     "interceptions_p90": 0.2639,
-    "dribble_success_pct": 1.0
-  },
-  "Sergio Daniel Batista": {
-    "progressive_passes_p90": 4.6667,
-    "progressive_carries_p90": 0.0,
-    "pass_completion_pct": 0.9362,
-    "tackle_win_pct": 0.3333,
-    "interceptions_p90": 0.0,
     "dribble_success_pct": 1.0
   },
   "Gnégnéri Yaya Touré": {
@@ -2118,14 +2110,6 @@
     "tackle_win_pct": 0.6,
     "interceptions_p90": 0.7284,
     "dribble_success_pct": 0.6538
-  },
-  "Junior Stanislas": {
-    "progressive_passes_p90": 1.3654,
-    "progressive_carries_p90": 3.0721,
-    "pass_completion_pct": 0.7722,
-    "tackle_win_pct": 0.48,
-    "interceptions_p90": 0.2845,
-    "dribble_success_pct": 0.5484
   },
   "Gylfi Þór Sigurðsson": {
     "progressive_passes_p90": 1.6623,
@@ -3119,14 +3103,6 @@
     "interceptions_p90": 0.297,
     "dribble_success_pct": 0.75
   },
-  "Christoph Baumgartner": {
-    "progressive_passes_p90": 1.1929,
-    "progressive_carries_p90": 2.5184,
-    "pass_completion_pct": 0.7327,
-    "tackle_win_pct": 0.6154,
-    "interceptions_p90": 0.1325,
-    "dribble_success_pct": 0.44
-  },
   "Eljif Elmas": {
     "progressive_passes_p90": 2.5,
     "progressive_carries_p90": 2.5,
@@ -3590,14 +3566,6 @@
     "tackle_win_pct": 0.5238,
     "interceptions_p90": 0.0,
     "dribble_success_pct": 0.8333
-  },
-  "Ryad Boudebouz": {
-    "progressive_passes_p90": 4.5589,
-    "progressive_carries_p90": 3.2015,
-    "pass_completion_pct": 0.7837,
-    "tackle_win_pct": 0.6727,
-    "interceptions_p90": 0.3073,
-    "dribble_success_pct": 0.5515
   },
   "Mahdi Camara": {
     "progressive_passes_p90": 1.1441,
@@ -4927,13 +4895,21 @@
     "interceptions_p90": 1.0909,
     "dribble_success_pct": 0.6667
   },
-  "Fares Chaïbi": {
-    "progressive_passes_p90": 1.4969,
-    "progressive_carries_p90": 1.4969,
-    "pass_completion_pct": 0.6712,
-    "tackle_win_pct": 0.75,
-    "interceptions_p90": 0.0,
+  "Stijn Spierings": {
+    "progressive_passes_p90": 7.2794,
+    "progressive_carries_p90": 1.9853,
+    "pass_completion_pct": 0.9054,
+    "tackle_win_pct": 0.8571,
+    "interceptions_p90": 2.6471,
     "dribble_success_pct": 0.0
+  },
+  "Batista Mendy": {
+    "progressive_passes_p90": 9.5858,
+    "progressive_carries_p90": 1.0651,
+    "pass_completion_pct": 0.9286,
+    "tackle_win_pct": 0.6667,
+    "interceptions_p90": 0.0,
+    "dribble_success_pct": 0.6
   },
   "Himad Abdelli": {
     "progressive_passes_p90": 9.5364,
@@ -5350,6 +5326,14 @@
     "tackle_win_pct": 0.5,
     "interceptions_p90": 0.0,
     "dribble_success_pct": 0.6
+  },
+  "Otávio Edmilson da Silva Monteiro": {
+    "progressive_passes_p90": 4.5918,
+    "progressive_carries_p90": 1.8367,
+    "pass_completion_pct": 0.7746,
+    "tackle_win_pct": 0.8571,
+    "interceptions_p90": 0.0,
+    "dribble_success_pct": 0.0
   },
   "David Ruiz": {
     "progressive_passes_p90": 1.0112,
@@ -6206,6 +6190,14 @@
     "tackle_win_pct": 0.6667,
     "interceptions_p90": 0.0,
     "dribble_success_pct": 0.6
+  },
+  "Clodoaldo Tavares de Santana": {
+    "progressive_passes_p90": 5.8776,
+    "progressive_carries_p90": 2.9388,
+    "pass_completion_pct": 0.9198,
+    "tackle_win_pct": 0.84,
+    "interceptions_p90": 0.551,
+    "dribble_success_pct": 0.8
   },
   "Gérson de Oliveira Nunes": {
     "progressive_passes_p90": 6.2264,
@@ -7095,6 +7087,14 @@
     "interceptions_p90": 0.0,
     "dribble_success_pct": 0.0
   },
+  "Olivier Michel Kemen": {
+    "progressive_passes_p90": 1.8243,
+    "progressive_carries_p90": 0.8108,
+    "pass_completion_pct": 0.8108,
+    "tackle_win_pct": 0.5,
+    "interceptions_p90": 0.8108,
+    "dribble_success_pct": 0.0
+  },
   "Christopher Nkunku": {
     "progressive_passes_p90": 3.5381,
     "progressive_carries_p90": 2.4324,
@@ -7383,6 +7383,14 @@
     "interceptions_p90": 0.0,
     "dribble_success_pct": 0.6667
   },
+  "Diadie Samassekou": {
+    "progressive_passes_p90": 1.3568,
+    "progressive_carries_p90": 0.9045,
+    "pass_completion_pct": 0.8864,
+    "tackle_win_pct": 0.3,
+    "interceptions_p90": 0.9045,
+    "dribble_success_pct": 1.0
+  },
   "Simon Adingra": {
     "progressive_passes_p90": 0.41,
     "progressive_carries_p90": 2.4601,
@@ -7405,6 +7413,14 @@
     "pass_completion_pct": 0.9355,
     "tackle_win_pct": 0.8571,
     "interceptions_p90": 0.6818,
+    "dribble_success_pct": 1.0
+  },
+  "Kristjan Asllani": {
+    "progressive_passes_p90": 4.0,
+    "progressive_carries_p90": 0.6667,
+    "pass_completion_pct": 0.8876,
+    "tackle_win_pct": 1.0,
+    "interceptions_p90": 1.3333,
     "dribble_success_pct": 1.0
   },
   "Morten Hjulmand": {
@@ -7438,14 +7454,6 @@
     "tackle_win_pct": 0.4,
     "interceptions_p90": 0.2839,
     "dribble_success_pct": 0.3333
-  },
-  "Kobbie Mainoo": {
-    "progressive_passes_p90": 0.5389,
-    "progressive_carries_p90": 1.4371,
-    "pass_completion_pct": 0.8991,
-    "tackle_win_pct": 0.6667,
-    "interceptions_p90": 0.5389,
-    "dribble_success_pct": 0.2
   },
   "N'Golo Kanté": {
     "progressive_passes_p90": 4.8649,
@@ -7518,14 +7526,6 @@
     "tackle_win_pct": 0.5,
     "interceptions_p90": 0.2719,
     "dribble_success_pct": 0.3333
-  },
-  "Cole Palmer": {
-    "progressive_passes_p90": 1.0,
-    "progressive_carries_p90": 1.2,
-    "pass_completion_pct": 0.7931,
-    "tackle_win_pct": 1.0,
-    "interceptions_p90": 0.0,
-    "dribble_success_pct": 0.0
   },
   "Anzor Mekvabishvili": {
     "progressive_passes_p90": 1.3433,
@@ -7935,14 +7935,6 @@
     "interceptions_p90": 0.8012,
     "dribble_success_pct": 0.7273
   },
-  "José Javier Barkero Saludes": {
-    "progressive_passes_p90": 5.0625,
-    "progressive_carries_p90": 1.9687,
-    "pass_completion_pct": 0.7571,
-    "tackle_win_pct": 1.0,
-    "interceptions_p90": 0.2812,
-    "dribble_success_pct": 0.4286
-  },
   "Manuel Henrique Tavares Fernandes": {
     "progressive_passes_p90": 3.5,
     "progressive_carries_p90": 0.25,
@@ -8022,14 +8014,6 @@
     "tackle_win_pct": 0.5714,
     "interceptions_p90": 0.3333,
     "dribble_success_pct": 0.0
-  },
-  "Marius Stankevičius": {
-    "progressive_passes_p90": 2.0,
-    "progressive_carries_p90": 0.6667,
-    "pass_completion_pct": 0.6774,
-    "tackle_win_pct": 0.5,
-    "interceptions_p90": 0.3333,
-    "dribble_success_pct": 1.0
   },
   "Abel Enrique Aguilar Tapia": {
     "progressive_passes_p90": 3.5551,
@@ -8222,6 +8206,14 @@
     "tackle_win_pct": 0.75,
     "interceptions_p90": 0.2466,
     "dribble_success_pct": 0.5556
+  },
+  "Christine Nairn": {
+    "progressive_passes_p90": 3.6617,
+    "progressive_carries_p90": 0.7709,
+    "pass_completion_pct": 0.8352,
+    "tackle_win_pct": 0.0,
+    "interceptions_p90": 0.0,
+    "dribble_success_pct": 0.0
   },
   "Emily Louise van Egmond": {
     "progressive_passes_p90": 5.0856,

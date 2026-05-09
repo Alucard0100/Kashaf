@@ -399,14 +399,6 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7239
   },
-  "Mathías Olivera Miramontes": {
-    "progressive_passes_p90": 3.8811,
-    "progressive_carries_p90": 2.3077,
-    "cross_completion_pct": 0.0,
-    "tackle_win_pct": 0.6471,
-    "aerial_win_pct": 0.0,
-    "pass_completion_pct": 0.7975
-  },
   "Moussa Wagué": {
     "progressive_passes_p90": 2.2,
     "progressive_carries_p90": 0.6,
@@ -494,14 +486,6 @@
     "tackle_win_pct": 0.3448,
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7803
-  },
-  "Jakub Błaszczykowski": {
-    "progressive_passes_p90": 0.7004,
-    "progressive_carries_p90": 1.8911,
-    "cross_completion_pct": 0.1667,
-    "tackle_win_pct": 0.4444,
-    "aerial_win_pct": 0.0,
-    "pass_completion_pct": 0.814
   },
   "Łukasz Piszczek": {
     "progressive_passes_p90": 4.823,
@@ -742,6 +726,14 @@
     "tackle_win_pct": 0.5625,
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7766
+  },
+  "Douglas Pereira dos Santos": {
+    "progressive_passes_p90": 1.8182,
+    "progressive_carries_p90": 0.6061,
+    "cross_completion_pct": 0.0,
+    "tackle_win_pct": 0.3333,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.9286
   },
   "Roberto Antonio Correa Silva": {
     "progressive_passes_p90": 2.4519,
@@ -1327,6 +1319,14 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7746
   },
+  "Pervis Josué Estupiñán Tenorio": {
+    "progressive_passes_p90": 3.0835,
+    "progressive_carries_p90": 3.0835,
+    "cross_completion_pct": 0.2143,
+    "tackle_win_pct": 0.6364,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.7231
+  },
   "Ignacio Vidal Miralles": {
     "progressive_passes_p90": 2.0,
     "progressive_carries_p90": 0.3333,
@@ -1406,6 +1406,14 @@
     "tackle_win_pct": 0.4,
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.675
+  },
+  "Moritz Volz": {
+    "progressive_passes_p90": 3.5,
+    "progressive_carries_p90": 4.0,
+    "cross_completion_pct": 0.0,
+    "tackle_win_pct": 0.3077,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.8
   },
   "Michael Tarnat": {
     "progressive_passes_p90": 3.5,
@@ -1487,6 +1495,14 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.8085
   },
+  "Hermann Hreidarsson": {
+    "progressive_passes_p90": 5.5,
+    "progressive_carries_p90": 1.5,
+    "cross_completion_pct": 0.0,
+    "tackle_win_pct": 0.9,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.7714
+  },
   "Radostin Kishishev": {
     "progressive_passes_p90": 4.8503,
     "progressive_carries_p90": 1.6168,
@@ -1558,14 +1574,6 @@
     "tackle_win_pct": 0.75,
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.9184
-  },
-  "Giovanni Francini": {
-    "progressive_passes_p90": 2.6667,
-    "progressive_carries_p90": 2.0,
-    "cross_completion_pct": 1.0,
-    "tackle_win_pct": 0.6667,
-    "aerial_win_pct": 0.0,
-    "pass_completion_pct": 0.9655
   },
   "Massimo Mauro": {
     "progressive_passes_p90": 7.3973,
@@ -2391,6 +2399,14 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7857
   },
+  "Jan Bořil": {
+    "progressive_passes_p90": 3.0841,
+    "progressive_carries_p90": 2.243,
+    "cross_completion_pct": 0.0,
+    "tackle_win_pct": 0.625,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.7528
+  },
   "Stephen O''Donnell": {
     "progressive_passes_p90": 1.7928,
     "progressive_carries_p90": 1.4343,
@@ -2647,14 +2663,6 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.9429
   },
-  "Jonathan Clauss": {
-    "progressive_passes_p90": 1.8421,
-    "progressive_carries_p90": 1.5789,
-    "cross_completion_pct": 0.25,
-    "tackle_win_pct": 1.0,
-    "aerial_win_pct": 0.0,
-    "pass_completion_pct": 0.8
-  },
   "Djibril Sidibé": {
     "progressive_passes_p90": 5.6137,
     "progressive_carries_p90": 3.5915,
@@ -2814,14 +2822,6 @@
     "tackle_win_pct": 0.5,
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7885
-  },
-  "Alidu Seidu": {
-    "progressive_passes_p90": 1.5517,
-    "progressive_carries_p90": 1.9397,
-    "cross_completion_pct": 0.5,
-    "tackle_win_pct": 0.5,
-    "aerial_win_pct": 0.0,
-    "pass_completion_pct": 0.875
   },
   "Ashutosh Mehta": {
     "progressive_passes_p90": 2.6727,
@@ -3087,6 +3087,14 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7097
   },
+  "Ajith Kumar": {
+    "progressive_passes_p90": 4.8649,
+    "progressive_carries_p90": 4.2568,
+    "cross_completion_pct": 0.0,
+    "tackle_win_pct": 0.5714,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.6981
+  },
   "Parag Satish Shrivas": {
     "progressive_passes_p90": 3.9879,
     "progressive_carries_p90": 0.4532,
@@ -3247,14 +3255,6 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.81
   },
-  "Olivier Boscagli": {
-    "progressive_passes_p90": 3.9091,
-    "progressive_carries_p90": 1.0909,
-    "cross_completion_pct": 0.0,
-    "tackle_win_pct": 0.4286,
-    "aerial_win_pct": 0.0,
-    "pass_completion_pct": 0.8507
-  },
   "Layvin Kurzawa": {
     "progressive_passes_p90": 3.3537,
     "progressive_carries_p90": 2.529,
@@ -3326,6 +3326,14 @@
     "tackle_win_pct": 0.6765,
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7917
+  },
+  "Olivier Veigneau": {
+    "progressive_passes_p90": 5.8929,
+    "progressive_carries_p90": 1.6071,
+    "cross_completion_pct": 0.25,
+    "tackle_win_pct": 0.4,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.7561
   },
   "Ramy Bensebaini": {
     "progressive_passes_p90": 3.5466,
@@ -3863,14 +3871,6 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.9286
   },
-  "Kaoru Mitoma": {
-    "progressive_passes_p90": 0.75,
-    "progressive_carries_p90": 2.25,
-    "cross_completion_pct": 0.3333,
-    "tackle_win_pct": 1.0,
-    "aerial_win_pct": 0.0,
-    "pass_completion_pct": 0.7353
-  },
   "Andrija Živković": {
     "progressive_passes_p90": 2.4816,
     "progressive_carries_p90": 2.6471,
@@ -4094,6 +4094,14 @@
     "tackle_win_pct": 0.5714,
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7586
+  },
+  "Ramin Rezaeian": {
+    "progressive_passes_p90": 4.4,
+    "progressive_carries_p90": 1.6,
+    "cross_completion_pct": 0.1,
+    "tackle_win_pct": 0.5625,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.5824
   },
   "Ali Maâloul": {
     "progressive_passes_p90": 5.0,
@@ -4951,14 +4959,6 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7529
   },
-  "Ulisses Alexandre Garcia Lopes": {
-    "progressive_passes_p90": 1.3146,
-    "progressive_carries_p90": 1.5169,
-    "cross_completion_pct": 0.5,
-    "tackle_win_pct": 0.6667,
-    "aerial_win_pct": 0.0,
-    "pass_completion_pct": 0.7941
-  },
   "Sascha Riether": {
     "progressive_passes_p90": 4.0,
     "progressive_carries_p90": 1.6471,
@@ -5423,6 +5423,14 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.8344
   },
+  "Mohamed Hany Gamal Eldemerdash": {
+    "progressive_passes_p90": 4.7755,
+    "progressive_carries_p90": 1.8367,
+    "cross_completion_pct": 0.3333,
+    "tackle_win_pct": 0.4,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.7945
+  },
   "Mohamed Hamdy Sharaf": {
     "progressive_passes_p90": 3.5,
     "progressive_carries_p90": 1.0,
@@ -5727,13 +5735,13 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.6818
   },
-  "Marcos Johan López Lanfranco": {
-    "progressive_passes_p90": 0.7004,
-    "progressive_carries_p90": 2.1012,
-    "cross_completion_pct": 0.3333,
-    "tackle_win_pct": 0.8,
+  "Andy Jorman Polo Andrade": {
+    "progressive_passes_p90": 2.0809,
+    "progressive_carries_p90": 2.6012,
+    "cross_completion_pct": 0.0,
+    "tackle_win_pct": 0.4,
     "aerial_win_pct": 0.0,
-    "pass_completion_pct": 0.5152
+    "pass_completion_pct": 0.6957
   },
   "Gerardo Daniel Arteaga Zamora": {
     "progressive_passes_p90": 4.6667,
@@ -6135,6 +6143,14 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7619
   },
+  "Pedro Roberto Silva Botelho": {
+    "progressive_passes_p90": 2.6627,
+    "progressive_carries_p90": 0.5325,
+    "cross_completion_pct": 0.0,
+    "tackle_win_pct": 0.7,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.7143
+  },
   "João Pedro da Silva Pereira": {
     "progressive_passes_p90": 3.6667,
     "progressive_carries_p90": 5.6667,
@@ -6191,6 +6207,14 @@
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.5405
   },
+  "Meghan Klingenberg": {
+    "progressive_passes_p90": 5.0806,
+    "progressive_carries_p90": 1.6331,
+    "cross_completion_pct": 0.3571,
+    "tackle_win_pct": 0.4444,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.7103
+  },
   "Stephanie-Elise Catley": {
     "progressive_passes_p90": 4.5,
     "progressive_carries_p90": 1.8,
@@ -6222,6 +6246,14 @@
     "tackle_win_pct": 0.6471,
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7714
+  },
+  "Brooke Elby": {
+    "progressive_passes_p90": 2.6568,
+    "progressive_carries_p90": 2.6568,
+    "cross_completion_pct": 0.5,
+    "tackle_win_pct": 0.6154,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.6795
   },
   "Katie Bowen": {
     "progressive_passes_p90": 3.6667,
@@ -6350,6 +6382,14 @@
     "tackle_win_pct": 0.6364,
     "aerial_win_pct": 0.0,
     "pass_completion_pct": 0.7033
+  },
+  "Yong Lee": {
+    "progressive_passes_p90": 4.898,
+    "progressive_carries_p90": 3.0612,
+    "cross_completion_pct": 0.0,
+    "tackle_win_pct": 0.6667,
+    "aerial_win_pct": 0.0,
+    "pass_completion_pct": 0.6406
   },
   "Mohamed Abdul Shafy Sayed Abouezeid": {
     "progressive_passes_p90": 10.3333,

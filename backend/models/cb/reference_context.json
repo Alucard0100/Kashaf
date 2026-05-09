@@ -127,14 +127,6 @@
     "defensive_action_height_iqr": 26.5,
     "median_action_height": 35.8333
   },
-  "Raúl García Carnero": {
-    "aerial_duels_p90": 0.0,
-    "pass_completion_pct": 0.72,
-    "tackle_win_pct": 0.4,
-    "long_passes_p90": 1.8987,
-    "defensive_action_height_iqr": 0.0,
-    "median_action_height": 31.5833
-  },
   "Íñigo Martínez Berridi": {
     "aerial_duels_p90": 0.37,
     "pass_completion_pct": 0.8109,
@@ -1351,6 +1343,14 @@
     "defensive_action_height_iqr": 31.1667,
     "median_action_height": 30.0
   },
+  "Mikaël Silvestre": {
+    "aerial_duels_p90": 1.0,
+    "pass_completion_pct": 0.9231,
+    "tackle_win_pct": 0.5714,
+    "long_passes_p90": 4.0,
+    "defensive_action_height_iqr": 35.0,
+    "median_action_height": 27.5
+  },
   "John O''Shea": {
     "aerial_duels_p90": 0.2726,
     "pass_completion_pct": 0.7638,
@@ -1423,6 +1423,14 @@
     "defensive_action_height_iqr": 6.9167,
     "median_action_height": 36.25
   },
+  "Barry Hulshoff": {
+    "aerial_duels_p90": 0.6667,
+    "pass_completion_pct": 0.8571,
+    "tackle_win_pct": 0.5714,
+    "long_passes_p90": 2.0,
+    "defensive_action_height_iqr": 14.4167,
+    "median_action_height": 32.3333
+  },
   "Alessandro Renica": {
     "aerial_duels_p90": 0.0,
     "pass_completion_pct": 0.8125,
@@ -1446,6 +1454,14 @@
     "long_passes_p90": 1.6,
     "defensive_action_height_iqr": 47.0,
     "median_action_height": 39.4583
+  },
+  "Luciano Favero": {
+    "aerial_duels_p90": 0.5,
+    "pass_completion_pct": 0.8421,
+    "tackle_win_pct": 0.8571,
+    "long_passes_p90": 2.5,
+    "defensive_action_height_iqr": 26.8333,
+    "median_action_height": 40.0
   },
   "Miguel Bernardo Bianquetti": {
     "aerial_duels_p90": 0.0,
@@ -1871,14 +1887,6 @@
     "defensive_action_height_iqr": 17.5209,
     "median_action_height": 31.9167
   },
-  "Tyrone Mings": {
-    "aerial_duels_p90": 0.2961,
-    "pass_completion_pct": 0.8857,
-    "tackle_win_pct": 0.0,
-    "long_passes_p90": 4.7368,
-    "defensive_action_height_iqr": 18.3333,
-    "median_action_height": 34.0
-  },
   "Ciaran Clark": {
     "aerial_duels_p90": 0.2941,
     "pass_completion_pct": 0.8039,
@@ -2127,14 +2135,6 @@
     "defensive_action_height_iqr": 28.3333,
     "median_action_height": 36.75
   },
-  "Jurriën David Norman Timber": {
-    "aerial_duels_p90": 0.4306,
-    "pass_completion_pct": 0.9208,
-    "tackle_win_pct": 0.5714,
-    "long_passes_p90": 3.5885,
-    "defensive_action_height_iqr": 35.9583,
-    "median_action_height": 45.2083
-  },
   "Illia Zabarnyi": {
     "aerial_duels_p90": 0.25,
     "pass_completion_pct": 0.9005,
@@ -2183,14 +2183,6 @@
     "defensive_action_height_iqr": 14.1667,
     "median_action_height": 32.5833
   },
-  "Philipp Lienhart": {
-    "aerial_duels_p90": 0.0,
-    "pass_completion_pct": 0.8624,
-    "tackle_win_pct": 1.0,
-    "long_passes_p90": 4.7455,
-    "defensive_action_height_iqr": 35.1667,
-    "median_action_height": 36.5833
-  },
   "Grant Campbell Hanley": {
     "aerial_duels_p90": 0.2278,
     "pass_completion_pct": 0.9,
@@ -2214,14 +2206,6 @@
     "long_passes_p90": 2.4107,
     "defensive_action_height_iqr": 20.9375,
     "median_action_height": 32.4167
-  },
-  "Tomáš Kalas": {
-    "aerial_duels_p90": 1.2,
-    "pass_completion_pct": 0.902,
-    "tackle_win_pct": 1.0,
-    "long_passes_p90": 6.6,
-    "defensive_action_height_iqr": 19.9792,
-    "median_action_height": 31.25
   },
   "Milan Škriniar": {
     "aerial_duels_p90": 0.5,
@@ -2383,14 +2367,6 @@
     "defensive_action_height_iqr": 30.4167,
     "median_action_height": 37.0833
   },
-  "Eric García Martret": {
-    "aerial_duels_p90": 0.0,
-    "pass_completion_pct": 0.9739,
-    "tackle_win_pct": 0.3333,
-    "long_passes_p90": 10.1613,
-    "defensive_action_height_iqr": 35.5,
-    "median_action_height": 40.8333
-  },
   "Joachim Andersen": {
     "aerial_duels_p90": 0.5,
     "pass_completion_pct": 0.8877,
@@ -2422,14 +2398,6 @@
     "long_passes_p90": 6.255,
     "defensive_action_height_iqr": 34.0625,
     "median_action_height": 34.8333
-  },
-  "Lucas Perrin": {
-    "aerial_duels_p90": 0.0,
-    "pass_completion_pct": 0.8958,
-    "tackle_win_pct": 0.25,
-    "long_passes_p90": 2.2785,
-    "defensive_action_height_iqr": 0.0,
-    "median_action_height": 38.25
   },
   "Gerzino Nyamsi": {
     "aerial_duels_p90": 0.0,
@@ -2542,6 +2510,14 @@
     "long_passes_p90": 7.2426,
     "defensive_action_height_iqr": 22.0625,
     "median_action_height": 28.5833
+  },
+  "Andrei Girotto": {
+    "aerial_duels_p90": 0.25,
+    "pass_completion_pct": 0.9367,
+    "tackle_win_pct": 0.5385,
+    "long_passes_p90": 4.0,
+    "defensive_action_height_iqr": 17.2708,
+    "median_action_height": 33.5417
   },
   "Jean-Charles Castelletto": {
     "aerial_duels_p90": 0.0,
@@ -2918,14 +2894,6 @@
     "long_passes_p90": 5.2427,
     "defensive_action_height_iqr": 14.4583,
     "median_action_height": 29.6667
-  },
-  "Wungngayam Muirang": {
-    "aerial_duels_p90": 0.2528,
-    "pass_completion_pct": 0.7419,
-    "tackle_win_pct": 0.75,
-    "long_passes_p90": 4.0449,
-    "defensive_action_height_iqr": 35.8333,
-    "median_action_height": 27.9167
   },
   "Marco Andreolli": {
     "aerial_duels_p90": 0.1627,
@@ -3431,6 +3399,14 @@
     "defensive_action_height_iqr": 6.75,
     "median_action_height": 27.9583
   },
+  "Thiago Henrique Mendes Ribeiro": {
+    "aerial_duels_p90": 0.5,
+    "pass_completion_pct": 1.0,
+    "tackle_win_pct": 0.5556,
+    "long_passes_p90": 2.5,
+    "defensive_action_height_iqr": 52.3333,
+    "median_action_height": 38.1667
+  },
   "Junior Castello Lukeba": {
     "aerial_duels_p90": 0.0,
     "pass_completion_pct": 0.9167,
@@ -3638,22 +3614,6 @@
     "long_passes_p90": 5.1,
     "defensive_action_height_iqr": 29.1666,
     "median_action_height": 33.1667
-  },
-  "Steven de Sousa Vitoria": {
-    "aerial_duels_p90": 0.3333,
-    "pass_completion_pct": 0.8904,
-    "tackle_win_pct": 0.5,
-    "long_passes_p90": 6.6667,
-    "defensive_action_height_iqr": 4.5416,
-    "median_action_height": 31.7083
-  },
-  "Morteza Pouraliganji": {
-    "aerial_duels_p90": 0.8333,
-    "pass_completion_pct": 0.7551,
-    "tackle_win_pct": 0.5,
-    "long_passes_p90": 5.5,
-    "defensive_action_height_iqr": 36.375,
-    "median_action_height": 29.5
   },
   "Seyed Majid Hosseini": {
     "aerial_duels_p90": 0.3333,
@@ -5135,6 +5095,14 @@
     "defensive_action_height_iqr": 9.4375,
     "median_action_height": 23.75
   },
+  "Frankie Musonda": {
+    "aerial_duels_p90": 0.6667,
+    "pass_completion_pct": 0.9219,
+    "tackle_win_pct": 0.0,
+    "long_passes_p90": 4.3333,
+    "defensive_action_height_iqr": 0.0,
+    "median_action_height": 29.5
+  },
   "Henoc Inonga Baka": {
     "aerial_duels_p90": 0.2206,
     "pass_completion_pct": 0.9146,
@@ -5198,14 +5166,6 @@
     "long_passes_p90": 3.5,
     "defensive_action_height_iqr": 26.8333,
     "median_action_height": 30.125
-  },
-  "Marc Guehi": {
-    "aerial_duels_p90": 0.8755,
-    "pass_completion_pct": 0.9567,
-    "tackle_win_pct": 1.0,
-    "long_passes_p90": 6.1284,
-    "defensive_action_height_iqr": 36.9583,
-    "median_action_height": 38.8333
   },
   "Gernot Trauner": {
     "aerial_duels_p90": 0.0,
@@ -5527,6 +5487,14 @@
     "defensive_action_height_iqr": 17.1042,
     "median_action_height": 29.0
   },
+  "David Belenguer Reverter": {
+    "aerial_duels_p90": 0.3333,
+    "pass_completion_pct": 0.9333,
+    "tackle_win_pct": 0.6,
+    "long_passes_p90": 3.0,
+    "defensive_action_height_iqr": 13.0417,
+    "median_action_height": 28.9167
+  },
   "Rubén González Rocha": {
     "aerial_duels_p90": 0.0,
     "pass_completion_pct": 0.6452,
@@ -5695,6 +5663,14 @@
     "defensive_action_height_iqr": 7.3334,
     "median_action_height": 28.25
   },
+  "Raúl Rodríguez Navarro": {
+    "aerial_duels_p90": 0.0,
+    "pass_completion_pct": 0.8136,
+    "tackle_win_pct": 0.6,
+    "long_passes_p90": 4.25,
+    "defensive_action_height_iqr": 27.0,
+    "median_action_height": 29.9167
+  },
   "Whitney Church": {
     "aerial_duels_p90": 0.2281,
     "pass_completion_pct": 0.7692,
@@ -5702,6 +5678,14 @@
     "long_passes_p90": 6.0456,
     "defensive_action_height_iqr": 31.6667,
     "median_action_height": 30.0
+  },
+  "Abby Dahlkemper": {
+    "aerial_duels_p90": 0.1989,
+    "pass_completion_pct": 0.8498,
+    "tackle_win_pct": 0.4,
+    "long_passes_p90": 7.4586,
+    "defensive_action_height_iqr": 15.4167,
+    "median_action_height": 31.6667
   },
   "Abby Erceg": {
     "aerial_duels_p90": 0.2308,
@@ -5855,20 +5839,20 @@
     "defensive_action_height_iqr": 23.3334,
     "median_action_height": 25.0
   },
+  "Clare Elizabeth Polkinghorne": {
+    "aerial_duels_p90": 0.767,
+    "pass_completion_pct": 0.84,
+    "tackle_win_pct": 0.7273,
+    "long_passes_p90": 2.3011,
+    "defensive_action_height_iqr": 31.8751,
+    "median_action_height": 41.6667
+  },
   "Toni Pressley": {
     "aerial_duels_p90": 0.0,
     "pass_completion_pct": 0.6154,
     "tackle_win_pct": 0.5,
     "long_passes_p90": 7.2289,
     "defensive_action_height_iqr": 0.0,
-    "median_action_height": 30.8333
-  },
-  "Ilya Kutepov": {
-    "aerial_duels_p90": 0.6,
-    "pass_completion_pct": 0.7407,
-    "tackle_win_pct": 1.0,
-    "long_passes_p90": 6.8,
-    "defensive_action_height_iqr": 12.5,
     "median_action_height": 30.8333
   },
   "Sergei Ignashevich": {
@@ -5927,14 +5911,6 @@
     "defensive_action_height_iqr": 10.4167,
     "median_action_height": 33.3333
   },
-  "Román Aureliano Torres Morcillo": {
-    "aerial_duels_p90": 0.4128,
-    "pass_completion_pct": 0.7222,
-    "tackle_win_pct": 0.0,
-    "long_passes_p90": 4.9541,
-    "defensive_action_height_iqr": 0.0,
-    "median_action_height": 23.3333
-  },
   "Andreas Granqvist": {
     "aerial_duels_p90": 0.0,
     "pass_completion_pct": 0.7885,
@@ -5974,5 +5950,13 @@
     "long_passes_p90": 5.6667,
     "defensive_action_height_iqr": 13.1251,
     "median_action_height": 29.1667
+  },
+  "Rami Bedoui": {
+    "aerial_duels_p90": 1.0,
+    "pass_completion_pct": 0.9318,
+    "tackle_win_pct": 1.0,
+    "long_passes_p90": 9.0,
+    "defensive_action_height_iqr": 0.0,
+    "median_action_height": 31.6667
   }
 }

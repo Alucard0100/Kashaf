@@ -407,6 +407,14 @@
     "receptions_final_third_p90": 13.6713,
     "penalty_area_touches_p90": 7.0117
   },
+  "Didier Yves Drogba Tébily": {
+    "aerial_duels_p90": 0.0,
+    "dribble_success_pct": 0.6,
+    "pass_completion_pct": 0.375,
+    "avg_shot_distance": 10.0,
+    "receptions_final_third_p90": 12.0,
+    "penalty_area_touches_p90": 8.0
+  },
   "Fernando José Torres Sanz": {
     "aerial_duels_p90": 0.4722,
     "dribble_success_pct": 0.4902,
@@ -1287,6 +1295,14 @@
     "receptions_final_third_p90": 9.8729,
     "penalty_area_touches_p90": 7.3556
   },
+  "Johan Cruyff": {
+    "aerial_duels_p90": 0.509,
+    "dribble_success_pct": 0.7361,
+    "pass_completion_pct": 0.7302,
+    "avg_shot_distance": 17.9968,
+    "receptions_final_third_p90": 14.1516,
+    "penalty_area_touches_p90": 12.1154
+  },
   "Roberto Boninsegna": {
     "aerial_duels_p90": 0.5202,
     "dribble_success_pct": 0.5,
@@ -1310,6 +1326,14 @@
     "avg_shot_distance": 14.079,
     "receptions_final_third_p90": 7.0,
     "penalty_area_touches_p90": 5.75
+  },
+  "Fernando Morientes Sánchez": {
+    "aerial_duels_p90": 0.4412,
+    "dribble_success_pct": 0.5714,
+    "pass_completion_pct": 0.8148,
+    "avg_shot_distance": 18.1671,
+    "receptions_final_third_p90": 13.2353,
+    "penalty_area_touches_p90": 3.9706
   },
   "Éderzito António Macedo Lopes": {
     "aerial_duels_p90": 0.8249,
@@ -1398,14 +1422,6 @@
     "avg_shot_distance": 14.0389,
     "receptions_final_third_p90": 10.1487,
     "penalty_area_touches_p90": 8.0028
-  },
-  "Benik Afobe": {
-    "aerial_duels_p90": 0.9908,
-    "dribble_success_pct": 0.4,
-    "pass_completion_pct": 0.9118,
-    "avg_shot_distance": 7.9619,
-    "receptions_final_third_p90": 10.156,
-    "penalty_area_touches_p90": 5.945
   },
   "Lewis Grabban": {
     "aerial_duels_p90": 0.201,
@@ -1735,14 +1751,6 @@
     "receptions_final_third_p90": 5.4649,
     "penalty_area_touches_p90": 3.5863
   },
-  "Rafael Mir Vicente": {
-    "aerial_duels_p90": 1.0,
-    "dribble_success_pct": 0.5,
-    "pass_completion_pct": 0.7619,
-    "avg_shot_distance": 13.6891,
-    "receptions_final_third_p90": 7.5,
-    "penalty_area_touches_p90": 10.0
-  },
   "Daniel Gómez Alcón": {
     "aerial_duels_p90": 0.5,
     "dribble_success_pct": 0.4,
@@ -1934,14 +1942,6 @@
     "avg_shot_distance": 14.3853,
     "receptions_final_third_p90": 12.425,
     "penalty_area_touches_p90": 10.1561
-  },
-  "Kylian Mbappé Lottin": {
-    "aerial_duels_p90": 0.1517,
-    "dribble_success_pct": 0.5056,
-    "pass_completion_pct": 0.8066,
-    "avg_shot_distance": 16.0089,
-    "receptions_final_third_p90": 17.138,
-    "penalty_area_touches_p90": 13.2453
   },
   "Timo Werner": {
     "aerial_duels_p90": 0.7807,
@@ -2230,14 +2230,6 @@
     "avg_shot_distance": 22.8775,
     "receptions_final_third_p90": 3.8095,
     "penalty_area_touches_p90": 2.9524
-  },
-  "Jorge Ortiz Mendoza": {
-    "aerial_duels_p90": 0.2819,
-    "dribble_success_pct": 0.5204,
-    "pass_completion_pct": 0.8182,
-    "avg_shot_distance": 19.2354,
-    "receptions_final_third_p90": 15.3641,
-    "penalty_area_touches_p90": 9.8669
   },
   "Nerijus Valskis": {
     "aerial_duels_p90": 0.7001,
@@ -3775,14 +3767,6 @@
     "receptions_final_third_p90": 9.7143,
     "penalty_area_touches_p90": 5.8571
   },
-  "Victor Okoh Boniface": {
-    "aerial_duels_p90": 0.25,
-    "dribble_success_pct": 0.5349,
-    "pass_completion_pct": 0.7757,
-    "avg_shot_distance": 14.5695,
-    "receptions_final_third_p90": 12.7,
-    "penalty_area_touches_p90": 12.5
-  },
   "Luca Pfeiffer": {
     "aerial_duels_p90": 1.5,
     "dribble_success_pct": 0.0,
@@ -3943,6 +3927,14 @@
     "receptions_final_third_p90": 5.2941,
     "penalty_area_touches_p90": 3.0252
   },
+  "Peter Shalulile": {
+    "aerial_duels_p90": 1.5042,
+    "dribble_success_pct": 0.75,
+    "pass_completion_pct": 0.75,
+    "avg_shot_distance": 10.3784,
+    "receptions_final_third_p90": 15.7939,
+    "penalty_area_touches_p90": 9.7772
+  },
   "Patson Daka": {
     "aerial_duels_p90": 2.6471,
     "dribble_success_pct": 1.0,
@@ -4014,6 +4006,14 @@
     "avg_shot_distance": 0.0,
     "receptions_final_third_p90": 4.5455,
     "penalty_area_touches_p90": 0.4545
+  },
+  "Georges Mikautadze": {
+    "aerial_duels_p90": 0.9609,
+    "dribble_success_pct": 0.4211,
+    "pass_completion_pct": 0.8065,
+    "avg_shot_distance": 9.461,
+    "receptions_final_third_p90": 5.7651,
+    "penalty_area_touches_p90": 5.7651
   },
   "Gianluca Lapadula Vargas": {
     "aerial_duels_p90": 0.7229,
@@ -4119,13 +4119,13 @@
     "receptions_final_third_p90": 7.0,
     "penalty_area_touches_p90": 5.4
   },
-  "João Fernando Nelo": {
-    "aerial_duels_p90": 1.125,
-    "dribble_success_pct": 0.5,
-    "pass_completion_pct": 0.7895,
-    "avg_shot_distance": 16.0429,
-    "receptions_final_third_p90": 10.6875,
-    "penalty_area_touches_p90": 9.0
+  "Francisco Javier García Guerrero": {
+    "aerial_duels_p90": 0.7563,
+    "dribble_success_pct": 1.0,
+    "pass_completion_pct": 0.75,
+    "avg_shot_distance": 0.0,
+    "receptions_final_third_p90": 2.2689,
+    "penalty_area_touches_p90": 0.0
   },
   "Rodolfo Bodipo Díaz": {
     "aerial_duels_p90": 0.3529,
@@ -4383,6 +4383,14 @@
     "receptions_final_third_p90": 13.9599,
     "penalty_area_touches_p90": 10.1825
   },
+  "Samantha May Kerr": {
+    "aerial_duels_p90": 0.2857,
+    "dribble_success_pct": 0.7273,
+    "pass_completion_pct": 0.6493,
+    "avg_shot_distance": 16.4599,
+    "receptions_final_third_p90": 18.4286,
+    "penalty_area_touches_p90": 14.0
+  },
   "Yuki Nagasato": {
     "aerial_duels_p90": 0.0,
     "dribble_success_pct": 0.3333,
@@ -4406,14 +4414,6 @@
     "avg_shot_distance": 16.6346,
     "receptions_final_third_p90": 8.285,
     "penalty_area_touches_p90": 3.9723
-  },
-  "Carli Anne Hollins": {
-    "aerial_duels_p90": 0.8,
-    "dribble_success_pct": 0.6316,
-    "pass_completion_pct": 0.6792,
-    "avg_shot_distance": 20.4356,
-    "receptions_final_third_p90": 6.4,
-    "penalty_area_touches_p90": 3.8
   },
   "Katlyn Alicia Johnson Carreón": {
     "aerial_duels_p90": 0.2069,
@@ -4447,14 +4447,6 @@
     "receptions_final_third_p90": 14.0,
     "penalty_area_touches_p90": 11.0
   },
-  "Sydney Rae Leroux": {
-    "aerial_duels_p90": 0.2,
-    "dribble_success_pct": 0.6154,
-    "pass_completion_pct": 0.701,
-    "avg_shot_distance": 17.7236,
-    "receptions_final_third_p90": 12.8,
-    "penalty_area_touches_p90": 9.0
-  },
   "Rosie White": {
     "aerial_duels_p90": 0.0,
     "dribble_success_pct": 0.3333,
@@ -4462,14 +4454,6 @@
     "avg_shot_distance": 0.0,
     "receptions_final_third_p90": 3.6085,
     "penalty_area_touches_p90": 2.3349
-  },
-  "Ahmed Musa": {
-    "aerial_duels_p90": 0.4737,
-    "dribble_success_pct": 0.7,
-    "pass_completion_pct": 0.7778,
-    "avg_shot_distance": 12.8962,
-    "receptions_final_third_p90": 12.7895,
-    "penalty_area_touches_p90": 11.8421
   },
   "Blas Antonio Miguel Pérez Ortega": {
     "aerial_duels_p90": 1.1043,

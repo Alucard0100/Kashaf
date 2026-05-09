@@ -1112,6 +1112,13 @@
     "pass_completion_pct": 0.6804,
     "progressive_pass_pct": 0.2062
   },
+  "Javier Ignacio Aquino Carmona": {
+    "passes_into_final_third_p90": 0.3333,
+    "dribble_success_pct": 0.6,
+    "cross_completion_pct": 0.5,
+    "pass_completion_pct": 0.7692,
+    "progressive_pass_pct": 0.1538
+  },
   "Charly Musonda Junior": {
     "passes_into_final_third_p90": 0.6739,
     "dribble_success_pct": 0.5714,
@@ -1301,13 +1308,6 @@
     "pass_completion_pct": 0.8267,
     "progressive_pass_pct": 0.1879
   },
-  "Tomasz Radziński": {
-    "passes_into_final_third_p90": 0.0,
-    "dribble_success_pct": 0.0,
-    "cross_completion_pct": 0.0,
-    "pass_completion_pct": 0.7727,
-    "progressive_pass_pct": 0.0
-  },
   "Junichi Inamoto": {
     "passes_into_final_third_p90": 0.0,
     "dribble_success_pct": 0.4444,
@@ -1335,6 +1335,13 @@
     "cross_completion_pct": 0.0,
     "pass_completion_pct": 0.8095,
     "progressive_pass_pct": 0.0952
+  },
+  "Tony Field": {
+    "passes_into_final_third_p90": 2.0,
+    "dribble_success_pct": 0.5,
+    "cross_completion_pct": 0.25,
+    "pass_completion_pct": 0.76,
+    "progressive_pass_pct": 0.08
   },
   "Piet Keizer": {
     "passes_into_final_third_p90": 0.5,
@@ -1819,13 +1826,6 @@
     "pass_completion_pct": 0.7951,
     "progressive_pass_pct": 0.1512
   },
-  "Adama Traoré Diarra": {
-    "passes_into_final_third_p90": 0.0,
-    "dribble_success_pct": 0.5897,
-    "cross_completion_pct": 0.2222,
-    "pass_completion_pct": 0.6333,
-    "progressive_pass_pct": 0.0333
-  },
   "Cameron Brannagan": {
     "passes_into_final_third_p90": 1.0,
     "dribble_success_pct": 0.5,
@@ -2211,6 +2211,13 @@
     "pass_completion_pct": 0.8202,
     "progressive_pass_pct": 0.1348
   },
+  "Jeremy Doku": {
+    "passes_into_final_third_p90": 0.4272,
+    "dribble_success_pct": 0.5385,
+    "cross_completion_pct": 0.0,
+    "pass_completion_pct": 0.7708,
+    "progressive_pass_pct": 0.1354
+  },
   "Cody Mathès Gakpo": {
     "passes_into_final_third_p90": 0.5888,
     "dribble_success_pct": 0.5417,
@@ -2344,6 +2351,13 @@
     "pass_completion_pct": 0.8909,
     "progressive_pass_pct": 0.1091
   },
+  "Benjamin Bourigeaud": {
+    "passes_into_final_third_p90": 4.0449,
+    "dribble_success_pct": 0.0,
+    "cross_completion_pct": 0.3333,
+    "pass_completion_pct": 0.8472,
+    "progressive_pass_pct": 0.2361
+  },
   "Martin Terrier": {
     "passes_into_final_third_p90": 0.5521,
     "dribble_success_pct": 0.8,
@@ -2434,6 +2448,13 @@
     "cross_completion_pct": 0.5,
     "pass_completion_pct": 0.7885,
     "progressive_pass_pct": 0.125
+  },
+  "Seityasen Singh": {
+    "passes_into_final_third_p90": 0.3333,
+    "dribble_success_pct": 0.8,
+    "cross_completion_pct": 0.0,
+    "pass_completion_pct": 0.7097,
+    "progressive_pass_pct": 0.1613
   },
   "Raynier Fernandes": {
     "passes_into_final_third_p90": 0.7633,
@@ -3135,6 +3156,13 @@
     "pass_completion_pct": 0.701,
     "progressive_pass_pct": 0.1289
   },
+  "Yann Jouffre": {
+    "passes_into_final_third_p90": 2.9536,
+    "dribble_success_pct": 0.5952,
+    "cross_completion_pct": 0.2222,
+    "pass_completion_pct": 0.8482,
+    "progressive_pass_pct": 0.2604
+  },
   "Diego Rigonato Rodrigues": {
     "passes_into_final_third_p90": 1.3416,
     "dribble_success_pct": 0.3824,
@@ -3449,13 +3477,6 @@
     "cross_completion_pct": 1.0,
     "pass_completion_pct": 0.7234,
     "progressive_pass_pct": 0.2128
-  },
-  "Gonzalo Jordy Plata Jiménez": {
-    "passes_into_final_third_p90": 0.0,
-    "dribble_success_pct": 0.5,
-    "cross_completion_pct": 0.0,
-    "pass_completion_pct": 0.875,
-    "progressive_pass_pct": 0.225
   },
   "Ismaïla Sarr": {
     "passes_into_final_third_p90": 0.4124,
@@ -3904,6 +3925,13 @@
     "cross_completion_pct": 0.0,
     "pass_completion_pct": 0.8116,
     "progressive_pass_pct": 0.2029
+  },
+  "Jair Ventura Filho": {
+    "passes_into_final_third_p90": 0.727,
+    "dribble_success_pct": 0.6944,
+    "cross_completion_pct": 0.3333,
+    "pass_completion_pct": 0.8322,
+    "progressive_pass_pct": 0.0769
   },
   "Johnny Rep": {
     "passes_into_final_third_p90": 1.4429,
@@ -4500,6 +4528,13 @@
     "pass_completion_pct": 0.7,
     "progressive_pass_pct": 0.0667
   },
+  "Sidi Bouna Sidi Amar": {
+    "passes_into_final_third_p90": 0.5696,
+    "dribble_success_pct": 0.5833,
+    "cross_completion_pct": 0.0,
+    "pass_completion_pct": 0.7826,
+    "progressive_pass_pct": 0.2174
+  },
   "Mohamed Elias Achouri": {
     "passes_into_final_third_p90": 0.0,
     "dribble_success_pct": 0.1667,
@@ -4640,13 +4675,6 @@
     "pass_completion_pct": 0.8605,
     "progressive_pass_pct": 0.1163
   },
-  "Barış Alper Yılmaz": {
-    "passes_into_final_third_p90": 0.4,
-    "dribble_success_pct": 0.6364,
-    "cross_completion_pct": 0.2,
-    "pass_completion_pct": 0.7551,
-    "progressive_pass_pct": 0.102
-  },
   "Kenan Yildiz": {
     "passes_into_final_third_p90": 0.67,
     "dribble_success_pct": 0.5833,
@@ -4667,13 +4695,6 @@
     "cross_completion_pct": 0.0,
     "pass_completion_pct": 0.7619,
     "progressive_pass_pct": 0.1429
-  },
-  "Mykhailo Mudryk": {
-    "passes_into_final_third_p90": 0.8571,
-    "dribble_success_pct": 0.8333,
-    "cross_completion_pct": 0.0,
-    "pass_completion_pct": 0.7812,
-    "progressive_pass_pct": 0.2188
   },
   "Zuriko Davitashvili": {
     "passes_into_final_third_p90": 0.0,
@@ -4737,13 +4758,6 @@
     "cross_completion_pct": 0.0,
     "pass_completion_pct": 0.963,
     "progressive_pass_pct": 0.1111
-  },
-  "Ramiro Vaca Ponce": {
-    "passes_into_final_third_p90": 0.7407,
-    "dribble_success_pct": 0.0,
-    "cross_completion_pct": 0.0,
-    "pass_completion_pct": 0.9,
-    "progressive_pass_pct": 0.1333
   },
   "Miguel Ángel Almirón Rejala": {
     "passes_into_final_third_p90": 1.0,
@@ -4843,6 +4857,13 @@
     "pass_completion_pct": 0.7708,
     "progressive_pass_pct": 0.125
   },
+  "Sávio Bortolini Pimentel": {
+    "passes_into_final_third_p90": 1.6364,
+    "dribble_success_pct": 0.6667,
+    "cross_completion_pct": 0.3333,
+    "pass_completion_pct": 0.7674,
+    "progressive_pass_pct": 0.1395
+  },
   "Raúl González Blanco": {
     "passes_into_final_third_p90": 1.1613,
     "dribble_success_pct": 0.4667,
@@ -4885,12 +4906,26 @@
     "pass_completion_pct": 0.7907,
     "progressive_pass_pct": 0.1628
   },
+  "Juan Fernando Arango Sáenz": {
+    "passes_into_final_third_p90": 2.2407,
+    "dribble_success_pct": 0.25,
+    "cross_completion_pct": 0.0,
+    "pass_completion_pct": 0.7797,
+    "progressive_pass_pct": 0.2542
+  },
   "Vicente Rodríguez Guillén": {
     "passes_into_final_third_p90": 0.8,
     "dribble_success_pct": 0.2857,
     "cross_completion_pct": 0.3333,
     "pass_completion_pct": 0.8043,
     "progressive_pass_pct": 0.1957
+  },
+  "Andrés Nicolás D''Alessandro": {
+    "passes_into_final_third_p90": 1.7197,
+    "dribble_success_pct": 0.6667,
+    "cross_completion_pct": 0.0,
+    "pass_completion_pct": 0.8367,
+    "progressive_pass_pct": 0.2653
   },
   "Igor Gabilondo del Campo": {
     "passes_into_final_third_p90": 0.6923,
@@ -5122,6 +5157,13 @@
     "cross_completion_pct": 0.0,
     "pass_completion_pct": 0.6792,
     "progressive_pass_pct": 0.0566
+  },
+  "Mallory Eubanks": {
+    "passes_into_final_third_p90": 0.2679,
+    "dribble_success_pct": 0.5,
+    "cross_completion_pct": 0.5,
+    "pass_completion_pct": 0.8056,
+    "progressive_pass_pct": 0.1944
   },
   "Meredith Speck": {
     "passes_into_final_third_p90": 0.9219,

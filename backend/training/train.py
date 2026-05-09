@@ -613,6 +613,9 @@ def train_unit(unit: str, player_registry: dict, player_unit_map: dict):
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
 
+    from inference.adaptation import apply_domain_adaptation
+    X_scaled = apply_domain_adaptation(X_scaled, unit, feature_df.columns.tolist())
+
     print(f"  Players before outlier removal: {len(player_names)}")
 
     # Pass 1: Isolation Forest pre-filter

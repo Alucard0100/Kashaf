@@ -75,6 +75,9 @@ def profile_player(
     x = np.array([core[col] for col in feature_cols], dtype=float).reshape(1, -1)
     x_scaled = scaler.transform(x)[0]
 
+    from inference.adaptation import apply_domain_adaptation
+    x_scaled = apply_domain_adaptation(x_scaled, unit, feature_cols)
+
     assignments = soft_assignment(x_scaled, kmeans.cluster_centers_)
     archetypes  = {
         cluster_names[str(k)]: v
