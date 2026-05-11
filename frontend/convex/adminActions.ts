@@ -39,11 +39,11 @@ export const createAnalystWithAuth = action({
 
         // Step 2: Patch the user with analyst profile + onboarding flags
         await ctx.runMutation(internal.adminActions.patchAnalystProfileInternal, {
-            userId: user,
+            userId: user._id,
             analystProfile: args.analystProfile,
         });
 
-        return { userId: user };
+        return { userId: user._id };
     },
 });
 
