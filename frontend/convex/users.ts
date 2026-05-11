@@ -498,7 +498,10 @@ export const getScoutVerificationUrl = query({
     },
 });
 
-// ── Create analyst account (admin) ───────────────────────────────────────
+// ── Create analyst account (admin) — DEPRECATED ─────────────────────────
+// This mutation creates a users record but does NOT create auth credentials,
+// meaning the analyst cannot sign in. Use the /api/admin/create-analyst route
+// which registers via the auth system and then calls patchAnalystProfile.
 export const createAnalystAccount = mutation({
     args: {
         name: v.string(),
@@ -531,6 +534,38 @@ export const createAnalystAccount = mutation({
         });
 
         return userId;
+    },
+});
+
+// ── Patch user as analyst (called after auth sign-up by admin route) ─────
+export const patchAnalystProfile = mutation({
+    args: {
+        email: v.string(),
+        analystProfile: v.object({
+            nationality: v.string(),
+            experience: v.number(),
+            certifications: v.array(v.string()),
+            languages: v.array(v.string()),
+            bio: v.string(),
+        }),
+    },
+    handler: async (ctx, args) => {
+        const user = await ctx.db
+            .query("users")
+            .withIndex("email", (q) => q.eq("email", args.email))
+            .first();
+
+        if (!user) {
+            throw new Error("User not found. Auth sign-up may have failed.");
+        }
+
+        await ctx.db.patch(user._id, {
+            role: "analyst",
+            analystProfile: args.analystProfile,
+            onboardingComplete: true,
+        });
+
+        return user._id;
     },
 });
 
