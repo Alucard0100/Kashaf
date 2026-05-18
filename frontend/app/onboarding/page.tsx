@@ -5,6 +5,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { isValidEmail, isValidName, isValidPhone, isValidBio, isValidClubName, inRange, BOUNDS } from "@/lib/validation";
 
 /* ── Data for dropdowns ─────────────────────────────────────────────── */
 const POSITIONS = [
@@ -134,23 +135,54 @@ function PlayerForm({ user, onSubmit, loading }: {
     const [contactWhatsapp, setContactWhatsapp] = useState("");
     const [contactEmail, setContactEmail] = useState(user.email ?? "");
     const [contactAgent, setContactAgent] = useState("");
+    const [formError, setFormError] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        setFormError("");
+
+        if (!isValidName(name)) {
+            setFormError("Name must be 2\u201350 characters and contain only letters, spaces, hyphens, or apostrophes.");
+            return;
+        }
+        const ageNum = parseInt(age);
+        if (!inRange(ageNum, BOUNDS.AGE.min, BOUNDS.AGE.max)) {
+            setFormError(`Age must be between ${BOUNDS.AGE.min} and ${BOUNDS.AGE.max}.`);
+            return;
+        }
+        const heightNum = parseInt(height);
+        if (!inRange(heightNum, BOUNDS.HEIGHT.min, BOUNDS.HEIGHT.max)) {
+            setFormError(`Height must be between ${BOUNDS.HEIGHT.min} and ${BOUNDS.HEIGHT.max} cm.`);
+            return;
+        }
+        const weightNum = parseInt(weight);
+        if (!inRange(weightNum, BOUNDS.WEIGHT.min, BOUNDS.WEIGHT.max)) {
+            setFormError(`Weight must be between ${BOUNDS.WEIGHT.min} and ${BOUNDS.WEIGHT.max} kg.`);
+            return;
+        }
+        if (contactEmail && !isValidEmail(contactEmail)) {
+            setFormError("Please enter a valid contact email address.");
+            return;
+        }
+        if (contactWhatsapp && !isValidPhone(contactWhatsapp)) {
+            setFormError("Please enter a valid WhatsApp number (digits, optional +, spaces, dashes).");
+            return;
+        }
+
         onSubmit({
-            name,
+            name: name.trim(),
             playerProfile: {
-                age: parseInt(age),
+                age: ageNum,
                 nationality,
                 position,
                 secondaryPosition: secondaryPosition || undefined,
-                height: parseInt(height),
-                weight: parseInt(weight),
+                height: heightNum,
+                weight: weightNum,
                 foot,
-                currentClub: currentClub || undefined,
-                contactWhatsapp: contactWhatsapp || undefined,
-                contactEmail: contactEmail || undefined,
-                contactAgent: contactAgent || undefined,
+                currentClub: currentClub.trim() || undefined,
+                contactWhatsapp: contactWhatsapp.trim() || undefined,
+                contactEmail: contactEmail.trim() || undefined,
+                contactAgent: contactAgent.trim() || undefined,
             },
         });
     };
@@ -159,7 +191,7 @@ function PlayerForm({ user, onSubmit, loading }: {
         <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Input label="Full Name *" type="text" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Your full name" />
-                <Input label="Age *" type="number" value={age} onChange={(e) => setAge(e.target.value)} required min={13} max={55} placeholder="e.g. 22" />
+                <Input label="Age *" type="number" value={age} onChange={(e) => setAge(e.target.value)} required min={BOUNDS.AGE.min} max={BOUNDS.AGE.max} placeholder="e.g. 22" />
             </div>
 
             <Select label="Nationality *" options={NATIONALITIES} value={nationality} onChange={(e) => setNationality(e.target.value)} required />
@@ -170,8 +202,8 @@ function PlayerForm({ user, onSubmit, loading }: {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <Input label="Height (cm) *" type="number" value={height} onChange={(e) => setHeight(e.target.value)} required min={140} max={220} placeholder="e.g. 180" />
-                <Input label="Weight (kg) *" type="number" value={weight} onChange={(e) => setWeight(e.target.value)} required min={40} max={130} placeholder="e.g. 75" />
+                <Input label="Height (cm) *" type="number" value={height} onChange={(e) => setHeight(e.target.value)} required min={BOUNDS.HEIGHT.min} max={BOUNDS.HEIGHT.max} placeholder="e.g. 180" />
+                <Input label="Weight (kg) *" type="number" value={weight} onChange={(e) => setWeight(e.target.value)} required min={BOUNDS.WEIGHT.min} max={BOUNDS.WEIGHT.max} placeholder="e.g. 75" />
                 <div>
                     <label className="block text-sm font-medium text-white/70 mb-1.5">Preferred Foot *</label>
                     <div className="flex gap-2 pt-1">
@@ -206,6 +238,12 @@ function PlayerForm({ user, onSubmit, loading }: {
                 </div>
             </div>
 
+            {formError && (
+                <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                    {formError}
+                </div>
+            )}
+
             <SubmitButton loading={loading} text="Complete Profile" />
         </form>
     );
@@ -223,18 +261,38 @@ function AnalystForm({ user, onSubmit, loading }: {
     const [certifications, setCertifications] = useState<string[]>([]);
     const [languages, setLanguages] = useState<string[]>(["English"]);
     const [bio, setBio] = useState("");
+    const [formError, setFormError] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (languages.length === 0) return;
+        setFormError("");
+
+        if (!isValidName(name)) {
+            setFormError("Name must be 2\u201350 characters and contain only letters, spaces, hyphens, or apostrophes.");
+            return;
+        }
+        const expNum = parseInt(experience);
+        if (!inRange(expNum, BOUNDS.EXPERIENCE.min, BOUNDS.EXPERIENCE.max)) {
+            setFormError(`Experience must be between ${BOUNDS.EXPERIENCE.min} and ${BOUNDS.EXPERIENCE.max} years.`);
+            return;
+        }
+        if (languages.length === 0) {
+            setFormError("Please select at least one language.");
+            return;
+        }
+        if (!isValidBio(bio)) {
+            setFormError(`Bio must be between ${BOUNDS.BIO.minLength} and ${BOUNDS.BIO.maxLength} characters.`);
+            return;
+        }
+
         onSubmit({
-            name,
+            name: name.trim(),
             analystProfile: {
                 nationality,
-                experience: parseInt(experience),
+                experience: expNum,
                 certifications,
                 languages,
-                bio,
+                bio: bio.trim(),
             },
         });
     };
@@ -246,23 +304,31 @@ function AnalystForm({ user, onSubmit, loading }: {
                 <Select label="Nationality *" options={NATIONALITIES} value={nationality} onChange={(e) => setNationality(e.target.value)} required />
             </div>
 
-            <Input label="Years of Experience *" type="number" value={experience} onChange={(e) => setExperience(e.target.value)} required min={0} max={40} placeholder="e.g. 5" />
+            <Input label="Years of Experience *" type="number" value={experience} onChange={(e) => setExperience(e.target.value)} required min={BOUNDS.EXPERIENCE.min} max={BOUNDS.EXPERIENCE.max} placeholder="e.g. 5" />
 
             <MultiSelect label="Certifications" options={CERTIFICATIONS} selected={certifications} onChange={setCertifications} />
             <MultiSelect label="Languages *" options={LANGUAGES} selected={languages} onChange={setLanguages} />
             {languages.length === 0 && <p className="text-red-400 text-xs">Select at least one language</p>}
 
             <div>
-                <label className="block text-sm font-medium text-white/70 mb-1.5">Bio *</label>
+                <label className="block text-sm font-medium text-white/70 mb-1.5">Bio * <span className="text-white/30 font-normal">({bio.trim().length}/{BOUNDS.BIO.maxLength})</span></label>
                 <textarea
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                     required
                     rows={4}
+                    minLength={BOUNDS.BIO.minLength}
+                    maxLength={BOUNDS.BIO.maxLength}
                     placeholder="Describe your analysis style, experience, and what you offer..."
                     className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#00FF87]/50 focus:ring-1 focus:ring-[#00FF87]/30 transition-all resize-none"
                 />
             </div>
+
+            {formError && (
+                <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                    {formError}
+                </div>
+            )}
 
             <SubmitButton loading={loading} text="Complete Profile" />
         </form>
@@ -282,9 +348,21 @@ function ScoutForm({ user, onSubmit, loading }: {
     const [leagueLevel, setLeagueLevel] = useState("");
     const [docFile, setDocFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState(false);
+    const [formError, setFormError] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setFormError("");
+
+        if (!isValidName(name)) {
+            setFormError("Name must be 2\u201350 characters and contain only letters, spaces, hyphens, or apostrophes.");
+            return;
+        }
+        if (!isValidClubName(clubName)) {
+            setFormError(`Club name must be between ${BOUNDS.CLUB_NAME.minLength} and ${BOUNDS.CLUB_NAME.maxLength} characters.`);
+            return;
+        }
+
         let verificationDocId: any = undefined;
 
         if (docFile) {
@@ -299,9 +377,9 @@ function ScoutForm({ user, onSubmit, loading }: {
         }
 
         onSubmit({
-            name,
+            name: name.trim(),
             scoutProfile: {
-                clubName,
+                clubName: clubName.trim(),
                 country,
                 leagueLevel,
                 isVerified: false,
@@ -352,6 +430,12 @@ function ScoutForm({ user, onSubmit, loading }: {
                     </p>
                 </div>
             </div>
+
+            {formError && (
+                <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                    {formError}
+                </div>
+            )}
 
             <SubmitButton loading={loading || uploading} text={uploading ? "Uploading document..." : "Complete Profile"} />
         </form>

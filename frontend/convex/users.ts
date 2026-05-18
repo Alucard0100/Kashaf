@@ -97,8 +97,20 @@ export const completePlayerProfile = mutation({
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) throw new Error("Not authenticated");
+
+        // Server-side validation
+        const n = args.name.trim();
+        if (n.length < 2 || n.length > 50) throw new Error("Name must be 2–50 characters.");
+        const p = args.playerProfile;
+        if (p.age < 10 || p.age > 50) throw new Error("Age must be between 10 and 50.");
+        if (p.height < 100 || p.height > 210) throw new Error("Height must be between 100 and 210 cm.");
+        if (p.weight < 30 || p.weight > 150) throw new Error("Weight must be between 30 and 150 kg.");
+        if (p.contactEmail && !/^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,10}$/.test(p.contactEmail)) {
+            throw new Error("Invalid contact email address.");
+        }
+
         await ctx.db.patch(userId, {
-            name: args.name,
+            name: n,
             profilePhoto: args.profilePhoto,
             playerProfile: args.playerProfile,
             onboardingComplete: true,
@@ -122,8 +134,17 @@ export const completeAnalystProfile = mutation({
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) throw new Error("Not authenticated");
+
+        // Server-side validation
+        const n = args.name.trim();
+        if (n.length < 2 || n.length > 50) throw new Error("Name must be 2–50 characters.");
+        const a = args.analystProfile;
+        if (a.experience < 0 || a.experience > 50) throw new Error("Experience must be between 0 and 50 years.");
+        if (a.bio.trim().length < 20 || a.bio.trim().length > 1000) throw new Error("Bio must be between 20 and 1000 characters.");
+        if (a.languages.length === 0) throw new Error("At least one language is required.");
+
         await ctx.db.patch(userId, {
-            name: args.name,
+            name: n,
             profilePhoto: args.profilePhoto,
             analystProfile: args.analystProfile,
             onboardingComplete: true,
@@ -148,8 +169,15 @@ export const completeScoutProfile = mutation({
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) throw new Error("Not authenticated");
+
+        // Server-side validation
+        const n = args.name.trim();
+        if (n.length < 2 || n.length > 50) throw new Error("Name must be 2–50 characters.");
+        const s = args.scoutProfile;
+        if (s.clubName.trim().length < 2 || s.clubName.trim().length > 100) throw new Error("Club name must be between 2 and 100 characters.");
+
         await ctx.db.patch(userId, {
-            name: args.name,
+            name: n,
             profilePhoto: args.profilePhoto,
             scoutProfile: args.scoutProfile,
             onboardingComplete: true,

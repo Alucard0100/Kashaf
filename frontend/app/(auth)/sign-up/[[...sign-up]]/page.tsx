@@ -1,13 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { useConvexAuth } from "convex/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { isValidEmail, isValidName, isValidPassword } from "@/lib/validation";
 
 export default function SignUpPage() {
     const { signIn } = useAuthActions();
+    const { isAuthenticated } = useConvexAuth();
     const router = useRouter();
+
+    // If user is already authenticated (e.g. from a previous incomplete signup),
+    // redirect them to onboarding instead of letting them sit on the signup page.
+    useEffect(() => {
+        if (isAuthenticated) {
+            router.push("/onboarding");
+        }
+    }, [isAuthenticated, router]);
 
     const [step, setStep] = useState<"role" | "credentials" | "verification">("role");
     const [selectedRole, setSelectedRole] = useState<"player" | "analyst" | "scout" | null>(null);
@@ -59,12 +70,16 @@ export default function SignUpPage() {
         e.preventDefault();
         setError("");
 
-        if (!name.trim()) {
-            setError("Please enter your full name.");
+        if (!isValidName(name)) {
+            setError("Name must be 2–50 characters and contain only letters, spaces, hyphens, or apostrophes.");
             return;
         }
-        if (password.length < 8) {
-            setError("Password must be at least 8 characters.");
+        if (!isValidEmail(email)) {
+            setError("Please enter a valid email address (e.g. you@example.com).");
+            return;
+        }
+        if (!isValidPassword(password)) {
+            setError("Password must be at least 8 characters and contain both a letter and a number.");
             return;
         }
         if (password !== confirmPassword) {

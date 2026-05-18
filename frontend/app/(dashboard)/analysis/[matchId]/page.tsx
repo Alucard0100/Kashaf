@@ -15,6 +15,9 @@ const YOUTUBE_RESERVED_KEYS = new Set([
     "home", "end",
 ]);
 
+/** Keys reserved for actions — not YouTube but must not collide with event shortcuts */
+const ACTION_SHORTCUT_ID = "_logEvent";
+
 /** Default shortcut assignments (avoiding YouTube's keys) */
 const DEFAULT_SHORTCUTS: Record<string, string> = {
     pass: "q",
@@ -27,6 +30,7 @@ const DEFAULT_SHORTCUTS: Record<string, string> = {
     interception: "g",
     aerial: "z",
     clearance: "x",
+    [ACTION_SHORTCUT_ID]: "ctrl+enter",
 };
 
 /* ── Constants ────────────────────────────────────────────────────────── */
@@ -486,7 +490,16 @@ export default function MatchAnalysisPage() {
             const combo = `${e.ctrlKey || e.metaKey ? 'ctrl+' : ''}${e.altKey ? 'alt+' : ''}${e.shiftKey ? 'shift+' : ''}${keyStr}`;
             
             const eventType = shortcutKeyMap[combo];
-            if (eventType) {
+            if (eventType === ACTION_SHORTCUT_ID) {
+                // "Log Event" / "Update Event" action shortcut
+                e.preventDefault();
+                e.stopPropagation();
+                // Trigger click on the log event button
+                const logBtn = document.getElementById("log-event-btn");
+                if (logBtn && !logBtn.hasAttribute("disabled")) {
+                    logBtn.click();
+                }
+            } else if (eventType) {
                 e.preventDefault();
                 e.stopPropagation();
                 setSelectedEventType(eventType);
@@ -1075,6 +1088,7 @@ export default function MatchAnalysisPage() {
                                             </button>
                                         )}
                                         <button
+                                            id="log-event-btn"
                                             onClick={handleLogEvent}
                                             disabled={!pendingOrigin || logLoading}
                                             className={`flex-1 py-3 shrink-0 rounded-xl font-semibold text-sm transition-all hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer active:scale-[0.97] ${
@@ -1407,21 +1421,25 @@ export default function MatchAnalysisPage() {
                         )}
 
                         <div className="space-y-2">
-                            {EVENT_TYPES.map((et) => {
-                                const currentKey = customShortcuts[et.value] ?? "";
-                                const isEditing = shortcutEditKey === et.value;
+                            {[...EVENT_TYPES.map((et) => ({ id: et.value, label: et.label, color: et.color })), { id: ACTION_SHORTCUT_ID, label: "Log Event", color: "#00FF87" }].map((item) => {
+                                const currentKey = customShortcuts[item.id] ?? "";
+                                const isEditing = shortcutEditKey === item.id;
+                                const isAction = item.id === ACTION_SHORTCUT_ID;
                                 return (
                                     <div
-                                        key={et.value}
+                                        key={item.id}
                                         className={`flex items-center justify-between p-3 rounded-xl border transition-all ${
                                             isEditing
                                                 ? "border-[#3B82F6]/40 bg-[#3B82F6]/5"
-                                                : "border-white/[0.06] bg-white/[0.02]"
+                                                : isAction
+                                                    ? "border-[#00FF87]/20 bg-[#00FF87]/5"
+                                                    : "border-white/[0.06] bg-white/[0.02]"
                                         }`}
                                     >
                                         <div className="flex items-center gap-2">
-                                            <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: et.color }} />
-                                            <span className="text-xs font-medium text-white">{et.label}</span>
+                                            <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                                            <span className={`text-xs font-medium ${isAction ? "text-[#00FF87]" : "text-white"}`}>{item.label}</span>
+                                            {isAction && <span className="text-[9px] text-white/30 ml-1">(action)</span>}
                                         </div>
                                         {isEditing ? (
                                             <div className="flex items-center gap-2">
@@ -1435,7 +1453,7 @@ export default function MatchAnalysisPage() {
                                             </div>
                                         ) : (
                                             <button
-                                                onClick={() => { setShortcutEditKey(et.value); setShortcutError(null); }}
+                                                onClick={() => { setShortcutEditKey(item.id); setShortcutError(null); }}
                                                 className="px-2 py-1 rounded-lg text-[11px] font-bold uppercase bg-white/10 text-white/60 hover:bg-white/15 transition-all cursor-pointer min-w-[32px] text-center"
                                             >
                                                 {currentKey || "—"}
@@ -1470,7 +1488,7 @@ export default function MatchAnalysisPage() {
                                         ([evType, k]) => k.toLowerCase() === combo && evType !== shortcutEditKey
                                     );
                                     if (existingEvent) {
-                                        const existingLabel = EVENT_TYPES.find((et) => et.value === existingEvent[0])?.label ?? existingEvent[0];
+                                        const existingLabel = existingEvent[0] === ACTION_SHORTCUT_ID ? "Log Event" : (EVENT_TYPES.find((et) => et.value === existingEvent[0])?.label ?? existingEvent[0]);
                                         setShortcutError(`"${combo}" is already assigned to ${existingLabel}.`);
                                         return;
                                     }

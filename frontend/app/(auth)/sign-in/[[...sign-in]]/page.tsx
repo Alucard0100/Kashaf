@@ -1,13 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { useConvexAuth } from "convex/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { isValidEmail } from "@/lib/validation";
 
 export default function SignInPage() {
     const { signIn } = useAuthActions();
+    const { isAuthenticated } = useConvexAuth();
     const router = useRouter();
+
+    // If user is already authenticated (e.g. from a previous incomplete signup),
+    // redirect them to onboarding which handles routing.
+    useEffect(() => {
+        if (isAuthenticated) {
+            router.push("/onboarding");
+        }
+    }, [isAuthenticated, router]);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -20,6 +31,12 @@ export default function SignInPage() {
     const handleSignIn = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
+
+        if (!isValidEmail(email)) {
+            setError("Please enter a valid email address.");
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -46,6 +63,12 @@ export default function SignInPage() {
     const handleForgotPassword = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
+
+        if (!isValidEmail(resetEmail)) {
+            setError("Please enter a valid email address.");
+            return;
+        }
+
         setLoading(true);
 
         try {
