@@ -109,15 +109,23 @@ export default function Stats() {
 
     const bgY = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
 
-    // Generate some random positions for data particles
-    const particles = Array.from({ length: 15 }).map((_, i) => ({
-        id: i,
-        top: `${Math.random() * 100}%`,
-        left: `${Math.random() * 100}%`,
-        size: Math.random() * 3 + 1,
-        duration: Math.random() * 20 + 20,
-        delay: Math.random() * -20,
-    }));
+    // Generate particle positions only on the client to avoid SSR hydration mismatch
+    const [particles, setParticles] = useState<
+        { id: number; top: string; left: string; size: number; duration: number; delay: number }[]
+    >([]);
+
+    useEffect(() => {
+        setParticles(
+            Array.from({ length: 15 }).map((_, i) => ({
+                id: i,
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                size: Math.random() * 3 + 1,
+                duration: Math.random() * 20 + 20,
+                delay: Math.random() * -20,
+            }))
+        );
+    }, []);
 
     return (
         <section ref={sectionRef} id="stats" className="relative py-32 overflow-hidden flex justify-center items-center h-[100dvh]">
