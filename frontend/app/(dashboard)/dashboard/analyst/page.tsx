@@ -61,6 +61,10 @@ export default function AnalystDashboard() {
     const activeJobs = requests?.filter((r) => r.status === "accepted") ?? [];
     const completedJobs = requests?.filter((r) => r.status === "completed") ?? [];
 
+    // Stats derived from actual matches (the auto-assign workflow doesn't use analysisRequests)
+    const completedMatches = matches?.filter((m) => m.status === "completed") ?? [];
+    const assignedMatches  = matches?.filter((m) => m.status === "analyst_assigned" || m.status === "analysis_in_progress") ?? [];
+
     const handleRequestAction = async (requestId: Id<"analysisRequests">, status: "accepted" | "declined") => {
         setActionLoading(requestId);
         try {
@@ -75,7 +79,7 @@ export default function AnalystDashboard() {
     const stats = [
         {
             label: "Completed Analyses",
-            value: completedJobs.length,
+            value: completedMatches.length,
             icon: (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points="20 6 9 17 4 12" />
@@ -85,7 +89,7 @@ export default function AnalystDashboard() {
         },
         {
             label: "Pending Requests",
-            value: pendingRequests.length,
+            value: assignedMatches.length,
             icon: (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
@@ -237,7 +241,7 @@ export default function AnalystDashboard() {
                                     { label: "Experience", value: `${user?.analystProfile?.experience ?? 0} years` },
                                     { label: "Languages", value: user?.analystProfile?.languages?.join(", ") },
                                     { label: "Rating", value: avgRating?.average ? `${avgRating.average} ★ (${avgRating.count})` : "No ratings yet" },
-                                    { label: "Jobs Done", value: `${completedJobs.length}` },
+                                    { label: "Jobs Done", value: `${completedMatches.length}` },
                                 ].map((item) => (
                                     <div key={item.label} className="flex items-center justify-between">
                                         <span className="text-xs text-white/40">{item.label}</span>
