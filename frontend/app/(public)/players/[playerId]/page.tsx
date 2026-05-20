@@ -5,7 +5,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useParams } from "next/navigation";
 import type { Id, Doc } from "@/convex/_generated/dataModel";
-import { ShieldCheck, ShieldAlert, Play, User, Eye, FileText, ChevronRight } from "lucide-react";
+import { ShieldCheck, ShieldAlert, Play, User, Eye, FileText, ChevronRight, Phone, Mail, UserCheck } from "lucide-react";
 import Link from "next/link";
 import { MatchHighlightsViewer } from "@/components/scout/MatchHighlightsViewer";
 
@@ -43,6 +43,9 @@ export default function PlayerPublicProfile() {
     const twinCount  = profile?.twins?.length ?? 0;
     const nationality = user.playerProfile?.nationality;
     const club       = user.playerProfile?.currentClub;
+    const contactWhatsapp = user.playerProfile?.contactWhatsapp;
+    const contactEmail    = user.playerProfile?.contactEmail;
+    const contactAgent    = user.playerProfile?.contactAgent;
     const photoUrl   = user.profilePhoto;
     const initials   = (user.name || "?").split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2);
 
@@ -216,6 +219,54 @@ export default function PlayerPublicProfile() {
                                 ))}
                             </div>
                         </section>
+
+                        {/* Contact Info — visible to scouts */}
+                        {(contactWhatsapp || contactEmail || contactAgent) && (
+                            <section className="mt-8">
+                                <p className="text-[11px] font-bold uppercase tracking-widest text-white/25 mb-5">Contact</p>
+                                <div className="rounded-xl border border-white/5 overflow-hidden divide-y divide-white/5">
+                                    {contactWhatsapp && (
+                                        <div className="flex items-center gap-3 px-4 py-3">
+                                            <Phone className="w-4 h-4 text-dns-green shrink-0" />
+                                            <div className="min-w-0">
+                                                <span className="text-xs text-white/35 block">WhatsApp</span>
+                                                <a
+                                                    href={`https://wa.me/${contactWhatsapp.replace(/[^\d+]/g, '')}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-sm font-semibold text-dns-green hover:text-dns-green/80 transition-colors"
+                                                >
+                                                    {contactWhatsapp}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    )}
+                                    {contactEmail && (
+                                        <div className="flex items-center gap-3 px-4 py-3">
+                                            <Mail className="w-4 h-4 text-blue-400 shrink-0" />
+                                            <div className="min-w-0">
+                                                <span className="text-xs text-white/35 block">Email</span>
+                                                <a
+                                                    href={`mailto:${contactEmail}`}
+                                                    className="text-sm font-semibold text-white hover:text-white/80 transition-colors truncate block"
+                                                >
+                                                    {contactEmail}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    )}
+                                    {contactAgent && (
+                                        <div className="flex items-center gap-3 px-4 py-3">
+                                            <UserCheck className="w-4 h-4 text-amber-400 shrink-0" />
+                                            <div className="min-w-0">
+                                                <span className="text-xs text-white/35 block">Agent</span>
+                                                <span className="text-sm font-semibold text-white">{contactAgent}</span>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </section>
+                        )}
                     </div>
 
                 </div>
