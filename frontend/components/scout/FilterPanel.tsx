@@ -1,7 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -13,6 +12,14 @@ const ARCHETYPES_BY_POSITION: Record<string, string[]> = {
   wg: ["Touchline Winger", "Inside Forward", "Wide Playmaker"],
   st: ["False 9", "Poacher", "Target Man"],
 };
+
+// Tier filter options mapping to minMatches values
+const TIER_OPTIONS = [
+  { value: "3", label: "Verified Only", description: "3+ matches (Tiers 1–3)", minMatches: 3 },
+  { value: "5", label: "High + Medium", description: "5+ matches (Tiers 1–2)", minMatches: 5 },
+  { value: "8", label: "High Only", description: "8+ matches (Tier 1)", minMatches: 8 },
+  { value: "0", label: "All Players", description: "Including unverified", minMatches: 0 },
+] as const;
 
 export interface FilterState {
   unit: string;
@@ -143,18 +150,50 @@ export function FilterPanel({ filters, setFilters }: FilterPanelProps) {
           </div>
         </div>
 
-        {/* Data Reliability */}
-        <div className="pt-4 border-t border-white/5">
-          <div className="flex items-center justify-between">
-            <div className="space-y-1 pr-4">
-              <Label className="text-sm text-white/90 font-medium">Verified Data Only</Label>
-              <p className="text-[10px] text-white/40 leading-snug">Exclude players with fewer than 3 analyzed matches</p>
+        {/* Data Reliability Tier */}
+        <div className="space-y-4 pt-4 border-t border-white/5">
+          <h3 className="text-[10px] font-bold text-white/50 uppercase tracking-widest border-b border-white/5 pb-2">Data Reliability</h3>
+          
+          <div className="space-y-2.5">
+            <Label className="text-[11px] font-semibold text-white/50 uppercase tracking-wider">Minimum Tier</Label>
+            <Select
+              value={String(filters.minMatches)}
+              onValueChange={(val) => updateFilter("minMatches", Number(val))}
+            >
+              <SelectTrigger className="w-full bg-white/5 border-white/5 text-white rounded-lg h-10 focus:border-amber-400 focus:ring-1 focus:ring-amber-400">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-[#12121a] border-white/10 text-white rounded-xl">
+                {TIER_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    <div className="flex flex-col">
+                      <span className="font-medium">{opt.label}</span>
+                      <span className="text-[10px] text-white/40">{opt.description}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Tier legend */}
+          <div className="space-y-1.5 pt-1">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-dns-green" />
+              <span className="text-[10px] text-white/40">Tier 1 — High (8–10 matches)</span>
             </div>
-            <Switch
-              checked={filters.minMatches === 3}
-              onCheckedChange={(checked) => updateFilter("minMatches", checked ? 3 : 0)}
-              className="data-[state=checked]:bg-dns-blue"
-            />
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-dns-blue" />
+              <span className="text-[10px] text-white/40">Tier 2 — Medium (5–7 matches)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-amber-400" />
+              <span className="text-[10px] text-white/40">Tier 3 — Low (3–4 matches)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-white/20" />
+              <span className="text-[10px] text-white/40">Unverified (&lt;3 matches)</span>
+            </div>
           </div>
         </div>
 

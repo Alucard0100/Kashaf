@@ -7,6 +7,14 @@ import { FilterPanel, FilterState } from "@/components/scout/FilterPanel";
 import { PlayerRow } from "@/components/scout/PlayerRow";
 import type { ScoutSearchPlayer } from "@/components/scout/PlayerRow";
 
+// Tier separator header configuration
+const TIER_HEADERS: Record<number, { label: string; description: string; color: string; bgColor: string; borderColor: string; dotColor: string }> = {
+  1: { label: "Tier 1 — High Confidence", description: "8–10 analyzed matches", color: "text-dns-green", bgColor: "bg-dns-green/5", borderColor: "border-dns-green/15", dotColor: "bg-dns-green" },
+  2: { label: "Tier 2 — Medium Confidence", description: "5–7 analyzed matches", color: "text-dns-blue", bgColor: "bg-dns-blue/5", borderColor: "border-dns-blue/15", dotColor: "bg-dns-blue" },
+  3: { label: "Tier 3 — Low Confidence", description: "3–4 analyzed matches", color: "text-amber-400", bgColor: "bg-amber-400/5", borderColor: "border-amber-400/15", dotColor: "bg-amber-400" },
+  0: { label: "Unverified", description: "Fewer than 3 analyzed matches", color: "text-white/40", bgColor: "bg-white/2", borderColor: "border-white/6", dotColor: "bg-white/30" },
+};
+
 export default function ScoutDashboard() {
   const user = useQuery(api.users.getCurrentUser);
 
@@ -14,7 +22,7 @@ export default function ScoutDashboard() {
     unit: "all",
     topArchetype: "any",
     archetypeThreshold: 0,
-    minMatches: 3, // Default to reliable data only
+    minMatches: 3, // Default to verified data only
     ageRange: [10, 50],
     heightRange: [100, 220],
     preferredFoot: 'any'
@@ -57,22 +65,46 @@ export default function ScoutDashboard() {
     return archetypes[archetype] ?? 0;
   };
 
+  // Tier-first sort: group by reliability tier (1 → 2 → 3 → 0), then by archetype fit within each tier
   const players = rawProfiles ? [...rawProfiles].sort((a, b) => {
-    if (!selectedArchetype) return 0;
-
     const aProfile = a as ScoutSearchPlayer;
     const bProfile = b as ScoutSearchPlayer;
 
-    // Players whose top archetype matches go first
-    const aIsTop = aProfile.engineTopArchetype === selectedArchetype ? 1 : 0;
-    const bIsTop = bProfile.engineTopArchetype === selectedArchetype ? 1 : 0;
-    if (aIsTop !== bIsTop) return bIsTop - aIsTop;
+    // Primary sort: tier (1 first, then 2, then 3, then 0)
+    const tierOrder = (t: number) => (t === 0 ? 4 : t); // Push unverified (0) to end
+    const aTier = tierOrder(aProfile.reliabilityTier);
+    const bTier = tierOrder(bProfile.reliabilityTier);
+    if (aTier !== bTier) return aTier - bTier;
 
-    // Then sort by how much % they have of the selected archetype
-    const aPct = getArchetypePct(aProfile, selectedArchetype);
-    const bPct = getArchetypePct(bProfile, selectedArchetype);
-    return bPct - aPct;
+    // Secondary sort: archetype fit (if archetype selected)
+    if (selectedArchetype) {
+      const aIsTop = aProfile.engineTopArchetype === selectedArchetype ? 1 : 0;
+      const bIsTop = bProfile.engineTopArchetype === selectedArchetype ? 1 : 0;
+      if (aIsTop !== bIsTop) return bIsTop - aIsTop;
+
+      const aPct = getArchetypePct(aProfile, selectedArchetype);
+      const bPct = getArchetypePct(bProfile, selectedArchetype);
+      return bPct - aPct;
+    }
+
+    return 0;
   }) : [];
+
+  // Group players by tier for rendering with separators
+  const tierGroups: { tier: number; players: ScoutSearchPlayer[] }[] = [];
+  const tierOrder = [1, 2, 3, 0];
+  for (const tier of tierOrder) {
+    const tierPlayers = players.filter((p) => (p as ScoutSearchPlayer).reliabilityTier === tier) as ScoutSearchPlayer[];
+    if (tierPlayers.length > 0) {
+      tierGroups.push({ tier, players: tierPlayers });
+    }
+  }
+
+  // Count per tier for the metrics bar
+  const tierCounts = tierGroups.reduce((acc, g) => {
+    acc[g.tier] = g.players.length;
+    return acc;
+  }, {} as Record<number, number>);
 
   return (
     <div className="flex h-full w-full bg-dns-bg text-white overflow-hidden p-6 gap-6 relative selection:bg-dns-blue/30">
@@ -98,7 +130,7 @@ export default function ScoutDashboard() {
                   Player Search Engine
                 </h1>
                 <p className="text-sm font-medium text-white/50 mt-1">
-                  Discover talent matching your exact criteria.
+                  Discover talent matching your exact criteria — grouped by data reliability.
                 </p>
               </div>
             </div>
@@ -109,12 +141,42 @@ export default function ScoutDashboard() {
                   <span className="text-xs font-semibold text-white/40 uppercase tracking-widest">Results</span>
                   <span className="text-sm font-bold text-white">{players.length} Players Found</span>
                 </div>
-                {selectedArchetype && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-white/40 uppercase tracking-widest">Sorted By</span>
-                    <span className="text-xs font-bold text-dns-green bg-dns-green/10 px-2 py-1 rounded border border-dns-green/20">{selectedArchetype} %</span>
-                  </div>
-                )}
+                <div className="flex items-center gap-3">
+                  {tierCounts[1] !== undefined && (
+                    <span className="flex items-center gap-1.5 text-[11px] font-semibold">
+                      <span className="w-2 h-2 rounded-full bg-dns-green" />
+                      <span className="text-dns-green">{tierCounts[1]}</span>
+                      <span className="text-white/30">High</span>
+                    </span>
+                  )}
+                  {tierCounts[2] !== undefined && (
+                    <span className="flex items-center gap-1.5 text-[11px] font-semibold">
+                      <span className="w-2 h-2 rounded-full bg-dns-blue" />
+                      <span className="text-dns-blue">{tierCounts[2]}</span>
+                      <span className="text-white/30">Med</span>
+                    </span>
+                  )}
+                  {tierCounts[3] !== undefined && (
+                    <span className="flex items-center gap-1.5 text-[11px] font-semibold">
+                      <span className="w-2 h-2 rounded-full bg-amber-400" />
+                      <span className="text-amber-400">{tierCounts[3]}</span>
+                      <span className="text-white/30">Low</span>
+                    </span>
+                  )}
+                  {tierCounts[0] !== undefined && (
+                    <span className="flex items-center gap-1.5 text-[11px] font-semibold">
+                      <span className="w-2 h-2 rounded-full bg-white/30" />
+                      <span className="text-white/40">{tierCounts[0]}</span>
+                      <span className="text-white/30">Unv.</span>
+                    </span>
+                  )}
+                  {selectedArchetype && (
+                    <>
+                      <span className="w-px h-4 bg-white/10" />
+                      <span className="text-xs font-bold text-dns-green bg-dns-green/10 px-2 py-1 rounded border border-dns-green/20">{selectedArchetype} %</span>
+                    </>
+                  )}
+                </div>
             </div>
         </div>
 
@@ -131,23 +193,47 @@ export default function ScoutDashboard() {
             </div>
             <h3 className="text-xl font-bold mb-2 text-white">No Matches Found</h3>
             <p className="text-white/50 max-w-sm text-sm">
-              Try broadening your search constraints (Age, Height, or Top Archetype).
+              Try broadening your search constraints (Age, Height, or Minimum Tier).
             </p>
           </div>
         ) : (
-          <div className="space-y-3 pb-12">
-            {players.map((p) => {
-              const profile = p as ScoutSearchPlayer;
-              const isTopMatch = selectedArchetype ? profile.engineTopArchetype === selectedArchetype : false;
-              const archetypePct = selectedArchetype ? getArchetypePct(profile, selectedArchetype) : null;
+          <div className="space-y-2 pb-12">
+            {tierGroups.map((group) => {
+              const header = TIER_HEADERS[group.tier];
               return (
-                <PlayerRow
-                  key={p._id}
-                  profile={profile}
-                  highlightArchetype={selectedArchetype}
-                  isTopArchetypeMatch={isTopMatch}
-                  archetypeMatchPct={archetypePct}
-                />
+                <div key={group.tier}>
+                  {/* Tier Separator Header */}
+                  <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl mb-2 mt-4 first:mt-0 border ${header.bgColor} ${header.borderColor} backdrop-blur-sm`}>
+                    <div className={`w-2.5 h-2.5 rounded-full ${header.dotColor} shadow-sm`} />
+                    <span className={`text-[11px] font-black uppercase tracking-widest ${header.color}`}>
+                      {header.label}
+                    </span>
+                    <span className="text-[10px] text-white/30 font-medium">
+                      {header.description}
+                    </span>
+                    <span className="ml-auto text-[10px] text-white/25 font-semibold">
+                      {group.players.length} {group.players.length === 1 ? "player" : "players"}
+                    </span>
+                  </div>
+
+                  {/* Players in this tier */}
+                  <div className="space-y-3">
+                    {group.players.map((p) => {
+                      const profile = p as ScoutSearchPlayer;
+                      const isTopMatch = selectedArchetype ? profile.engineTopArchetype === selectedArchetype : false;
+                      const archetypePct = selectedArchetype ? getArchetypePct(profile, selectedArchetype) : null;
+                      return (
+                        <PlayerRow
+                          key={p._id}
+                          profile={profile}
+                          highlightArchetype={selectedArchetype}
+                          isTopArchetypeMatch={isTopMatch}
+                          archetypeMatchPct={archetypePct}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
               );
             })}
           </div>

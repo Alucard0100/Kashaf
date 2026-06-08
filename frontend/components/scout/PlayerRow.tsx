@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { ShieldCheck, ShieldAlert, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 import type { Doc } from "@/convex/_generated/dataModel";
@@ -12,6 +12,7 @@ export type ScoutSearchPlayer = Doc<"users"> & {
   engineTopPct: number | null;
   engineMatchCount: number;
   engineArchetypes: Record<string, number> | null;
+  reliabilityTier: 0 | 1 | 2 | 3;
 };
 
 interface PlayerRowProps {
@@ -21,8 +22,17 @@ interface PlayerRowProps {
   archetypeMatchPct: number | null;
 }
 
+// Tier display configuration
+const TIER_CONFIG: Record<number, { label: string; color: string; bgColor: string; borderColor: string; dotColor: string }> = {
+  1: { label: "Tier 1 · High", color: "text-dns-green", bgColor: "bg-dns-green/8", borderColor: "border-dns-green/20", dotColor: "bg-dns-green" },
+  2: { label: "Tier 2 · Medium", color: "text-dns-blue", bgColor: "bg-dns-blue/8", borderColor: "border-dns-blue/20", dotColor: "bg-dns-blue" },
+  3: { label: "Tier 3 · Low", color: "text-amber-400", bgColor: "bg-amber-400/8", borderColor: "border-amber-400/20", dotColor: "bg-amber-400" },
+  0: { label: "Unverified", color: "text-white/40", bgColor: "bg-white/3", borderColor: "border-white/8", dotColor: "bg-white/30" },
+};
+
 export function PlayerRow({ profile, highlightArchetype, isTopArchetypeMatch, archetypeMatchPct }: PlayerRowProps) {
-  const isReliable = Math.max(profile.totalMatchesAnalyzed, profile.engineMatchCount) >= 3;
+  const matchCount = Math.max(profile.totalMatchesAnalyzed, profile.engineMatchCount);
+  const tier = TIER_CONFIG[profile.reliabilityTier] ?? TIER_CONFIG[0];
 
   // Derive display values from user profile
   const playerName = profile.name || "Unknown Player";
@@ -70,15 +80,11 @@ export function PlayerRow({ profile, highlightArchetype, isTopArchetypeMatch, ar
       <div className="flex-1 min-w-0 pr-4 relative z-10">
         <div className="flex items-center gap-3 mb-1">
           <h3 className="text-lg font-bold text-white truncate">{playerName}</h3>
-          {isReliable ? (
-            <div className="flex items-center gap-1 text-dns-blue" title={`Reliable Data (${profile.totalMatchesAnalyzed} matches)`}>
-              <ShieldCheck className="w-3.5 h-3.5" />
-            </div>
-          ) : (
-            <div className="flex items-center gap-1 text-amber-500" title={`Low Data Reliability (${profile.totalMatchesAnalyzed} matches)`}>
-              <ShieldAlert className="w-3.5 h-3.5" />
-            </div>
-          )}
+          {/* Tier Badge */}
+          <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md border ${tier.bgColor} ${tier.borderColor}`}>
+            <div className={`w-1.5 h-1.5 rounded-full ${tier.dotColor}`} />
+            <span className={`text-[9px] font-bold uppercase tracking-wider ${tier.color}`}>{tier.label}</span>
+          </div>
           {highlighted && (
             <Badge className="bg-dns-green/15 text-dns-green border-dns-green/25 text-[9px] uppercase tracking-wider px-1.5 py-0 font-bold">
               Top Match
@@ -90,6 +96,7 @@ export function PlayerRow({ profile, highlightArchetype, isTopArchetypeMatch, ar
           <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-white/20"/> {age} y/o</span>
           <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-white/20"/> {height} cm</span>
           <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-white/20"/> {foot} Foot</span>
+          <span className="flex items-center gap-1.5"><span className={`w-1.5 h-1.5 rounded-full ${tier.dotColor}`}/> {matchCount} {matchCount === 1 ? "match" : "matches"}</span>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">

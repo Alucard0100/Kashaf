@@ -337,6 +337,14 @@ export const rejectScout = mutation({
     },
 });
 
+// ── Reliability tier computation ─────────────────────────────────────────
+function getReliabilityTier(matchCount: number): 0 | 1 | 2 | 3 {
+    if (matchCount >= 8) return 1;  // High Confidence
+    if (matchCount >= 5) return 2;  // Medium Confidence
+    if (matchCount >= 3) return 3;  // Low Confidence
+    return 0;                       // Unverified
+}
+
 // ── Search players (for scouts) ──────────────────────────────────────────
 export const searchPlayers = query({
     args: {
@@ -432,6 +440,11 @@ export const searchPlayers = query({
                     }
                 }
 
+                const matchCount = Math.max(
+                    positionProfile?.totalMatchesAnalyzed ?? 0,
+                    engineProfile?.matchCount ?? 0,
+                );
+
                 return {
                     ...player,
                     positionProfile: positionProfile?.profiles ?? [],
@@ -441,6 +454,7 @@ export const searchPlayers = query({
                     engineTopPct: engineProfile?.topPct ?? null,
                     engineMatchCount: engineProfile?.matchCount ?? 0,
                     engineArchetypes: engineProfile?.archetypes ?? null,
+                    reliabilityTier: getReliabilityTier(matchCount),
                 };
             })
         );
