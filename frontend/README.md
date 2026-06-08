@@ -67,7 +67,9 @@ components/
 │   └── ArcDiagram.tsx          # Archetype arc visualization
 │
 ├── scout/                      # Scout-specific
-│   ├── FilterPanel.tsx         # Search filter sidebar
+│   ├── FilterPanel.tsx         # Search filter sidebar with tier selector
+│   ├── PlayerRow.tsx           # Tier-aware player result row
+│   ├── PlayerCard.tsx          # Expanded player card
 │   └── MatchHighlightsViewer.tsx  # YouTube highlights modal
 │
 ├── shared/                     # Cross-role shared components
@@ -119,7 +121,8 @@ api.engineJobs.getLatestCompletedJobByPlayerId({ playerId })
 api.matches.getAllMatchesWithDetails
 
 // Search players with filters (scout dashboard)
-api.users.searchPlayers({ position, topArchetype, minHeight, minAge, maxAge })
+// Returns reliabilityTier (0-3) and engineMatchCount for tier-grouped display
+api.users.searchPlayers({ position, minHeight, minAge, maxAge, minAnalyzedMatches })
 ```
 
 ---
