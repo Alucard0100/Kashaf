@@ -94,6 +94,18 @@ def _strip_season(versioned_name: str) -> str:
     return versioned_name
 
 
+def _format_display_name(versioned_name: str) -> str:
+    """
+    Converts bracket notation to parentheses for display.
+    "Virgil van Dijk [2019/2020]" -> "Virgil van Dijk (2019/2020)"
+    """
+    if " [" in versioned_name and versioned_name.endswith("]"):
+        base = versioned_name[:versioned_name.rfind(" [")]
+        season = versioned_name[versioned_name.rfind(" [") + 2 : -1]
+        return f"{base} ({season})"
+    return versioned_name
+
+
 def _format_context_for_display(raw_context: dict) -> dict:
     """Convert ratio fields to percentages for readable twin output."""
     return {
@@ -120,7 +132,7 @@ def find_twins(
 
     Returns:
         List of up to N_TWINS dicts, each containing:
-          - player_name: versioned player-season key
+          - player_name: display name with season in parentheses
             - similarity: float in percent
           - context: dict of context feature name -> value
     """
@@ -147,7 +159,7 @@ def find_twins(
         display_context = _format_context_for_display(raw_context)
         twins.append(
             {
-                "player_name": versioned_name,
+                "player_name": _format_display_name(versioned_name),
                 "similarity": round(float(score), 2),
                 "context": display_context,
             }
