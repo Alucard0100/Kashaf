@@ -15,7 +15,7 @@ from training.train import (
     MATCHES_DIR
 )
 
-def retrain_mf_fb():
+def retrain_st_wg():
     index_path = Path("data/statsbomb/player_index.json")
     if not index_path.exists():
         raise FileNotFoundError("Player index not found.")
@@ -32,11 +32,11 @@ def retrain_mf_fb():
     player_unit_map = build_player_unit_map(LINEUPS_DIR, player_registry)
     print(f"Player-seasons with known unit: {len(player_unit_map)}")
 
-    print("\n--- Retraining MF unit ---")
-    train_unit('mf', player_registry, player_unit_map)
+    print("\n--- Retraining ST unit ---")
+    train_unit('st', player_registry, player_unit_map)
 
-    print("\n--- Retraining FB unit ---")
-    train_unit('fb', player_registry, player_unit_map)
+    print("\n--- Retraining WG unit ---")
+    train_unit('wg', player_registry, player_unit_map)
 
 if __name__ == "__main__":
-    retrain_mf_fb()
+    retrain_st_wg()
