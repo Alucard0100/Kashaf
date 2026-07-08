@@ -90,12 +90,13 @@ DEFINITE_MF_POSITIONS = {
 }
 
 # Positions that are unambiguously fullback
-DEFINITE_FB_POSITIONS = {
-    "Left Back", "Right Back", "Left Wing Back", "Right Wing Back",
-}
+DEFINITE_FB_POSITIONS = {"Left Back", "Right Back"}
 
 # Ambiguous wide — could be WG, FB, or MF depending on context
-AMBIGUOUS_WIDE_POSITIONS = {"Left Midfield", "Right Midfield"}
+AMBIGUOUS_WIDE_POSITIONS = {
+    "Left Midfield", "Right Midfield",
+    "Left Wing Back", "Right Wing Back",
+}
 
 # Ambiguous central — CAM could be ST, CDM could be CB; default to MF
 AMBIGUOUS_CENTRAL_POSITIONS = {"Center Attacking Midfield", "Center Defensive Midfield"}
@@ -335,19 +336,22 @@ def diagnose_unit_sample(
     module = FEATURE_MODULES[unit]
     print(f"  Running diagnostic for {unit.upper()}...")
 
-    EXPECTED_CORE_COUNTS = {"cb": 6, "fb": 5, "mf": 6, "wg": 7, "st": 5}
-    EXPECTED_CTX_COUNTS = {"cb": 6, "fb": 6, "mf": 6, "wg": 5, "st": 6}
+    EXPECTED_CORE_COUNTS = {"cb": 3, "fb": 3, "mf": 5, "wg": 5, "st": 5}
+    EXPECTED_CTX_COUNTS = {"cb": 6, "fb": 10, "mf": 7, "wg": 5, "st": 7}
     threshold = _events_threshold(unit)
 
 
     RATIO_FEATURES = {
-        "tackle_ratio", "tackle_to_interception_ratio",
+        "tackle_ratio", "tackle_to_interception_ratio", "tackle_to_read_ratio",
         "cut_inside_carry_pct", "penalty_area_touch_pct",
         "drop_deep_reception_pct", "pass_completion_pct",
         "dribble_success_pct", "tackle_win_pct", "cross_completion_pct",
         "progressive_pass_pct", "headed_shots_pct",
         "pass_risk_profile", "role_symmetry", "centrality_bias",
         "progression_preference", "aerial_win_pct",
+        "vertical_stretch_ratio", "box_penetration_ratio",
+        "advanced_inversion_bias", "crossing_bias",
+        "flank_progression_bias", "passing_to_shooting_ratio",
     }
 
     for player_name, match_ids in player_registry.items():
