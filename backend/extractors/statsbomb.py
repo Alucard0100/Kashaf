@@ -95,7 +95,7 @@ def _map_body_part(event: dict, action_type: str) -> Optional[str]:
     """
     if action_type == "aerial":
         return "head"
-    if action_type in ("tackle", "interception", "foul", "reception"):
+    if action_type in ("tackle", "interception", "recovery", "foul", "reception"):
         return None
 
     # pass, shot, carry, dribble, clearance - read from event

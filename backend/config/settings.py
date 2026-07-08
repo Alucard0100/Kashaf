@@ -147,6 +147,7 @@ SB_EVENT_TYPE_MAP = {
     "Dribble":        "dribble",
     "Shot":           "shot",
     "Ball Receipt*":  "reception",
+    "Ball Recovery*": "recovery",
     "Interception":   "interception",
     "Clearance":      "clearance",
     "Foul Committed": "foul",
@@ -204,7 +205,7 @@ SB_FAILURE_OUTCOMES = {
 # Action types where outcome is ALWAYS True (success by definition)
 # Clearance is always successful — a defensive clearance is by definition completed.
 # Tackles, interceptions, and receptions can now fail (StatsBomb-compatible).
-ALWAYS_SUCCESS_ACTIONS = {"clearance"}
+ALWAYS_SUCCESS_ACTIONS = {"clearance", "recovery"}
 
 # Action types where end coordinates are not needed
 NO_END_COORDS_ACTIONS = {
@@ -213,6 +214,7 @@ NO_END_COORDS_ACTIONS = {
     "reception",
     "tackle",
     "interception",
+    "recovery",
     "aerial",
     "clearance",
     "foul",

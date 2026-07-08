@@ -36,6 +36,7 @@ VALID_ACTION_TYPES = {
     "reception",
     "tackle",
     "interception",
+    "recovery",
     "aerial",
     "clearance",
     "foul",
