@@ -28,6 +28,7 @@ const DEFAULT_SHORTCUTS: Record<string, string> = {
     reception: "s",
     tackle: "d",
     interception: "g",
+    recovery: "h",
     aerial: "z",
     clearance: "x",
     [ACTION_SHORTCUT_ID]: "ctrl+enter",
@@ -43,6 +44,7 @@ const EVENT_TYPES = [
     { value: "reception", label: "Reception", color: "#A78BFA" },
     { value: "tackle", label: "Tackle", color: "#06B6D4" },
     { value: "interception", label: "Interception", color: "#22C55E" },
+    { value: "recovery", label: "Recovery", color: "#84CC16" },
     { value: "aerial", label: "Aerial Duel", color: "#EC4899" },
     { value: "clearance", label: "Clearance", color: "#14B8A6" },
 ];
@@ -59,6 +61,7 @@ const OUTCOMES: Record<string, string[]> = {
     reception: ["Successful", "Failed"],
     tackle: ["Successful", "Failed"],
     interception: ["Successful", "Failed"],
+    recovery: ["Successful"],
     aerial: ["Won", "Lost"],
     clearance: ["Successful"],
 };
@@ -204,6 +207,20 @@ const GUIDELINES: Record<string, {
             "Blocks — a clearance is proactive, a block is reactive to a shot or cross",
         ],
         hint: "Start coords · Body part critical (head vs foot)",
+    },
+    recovery: {
+        tagWhen: "Player regains possession of a loose ball — not from a teammate's pass, not by intercepting an opponent's pass.",
+        requiredFields: [
+            "Start coordinates only — where the player collected the loose ball",
+            "No end coordinates, no body part needed",
+            "Outcome is always Successful (recovery = possession regained by definition)",
+        ],
+        doNotTag: [
+            "Intercepting an opponent's pass — that is an Interception",
+            "Receiving a deliberate pass from a teammate — that is a Reception",
+            "Winning a tackle — that is a Tackle (Successful)",
+        ],
+        hint: "Start coords only · Always successful · Loose ball pickups only",
     },
 };
 
